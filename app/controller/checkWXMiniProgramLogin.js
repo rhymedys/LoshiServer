@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-24 11:14:30
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-07-24 14:47:26
+ * @Last Modified time: 2018-07-24 16:59:43
  */
 'use strict';
 const Controller = require('egg').Controller;
@@ -10,6 +10,7 @@ const qs = require('qs');
 const response = require('../extend/response');
 
 class CheckWXMiniProgramLoginController extends Controller {
+
 
   /**
    * 登录凭证校验接口
@@ -27,12 +28,19 @@ class CheckWXMiniProgramLoginController extends Controller {
         dataType: 'json',
       });
 
-      this.logger.info(jscode2sessionRes);
       if (jscode2sessionRes.status === 200 && jscode2sessionRes.data.errcode !== 40029) {
-        response.sendSuccess(ctx, {
+        const resData = {
           JSESSIONID: jscode2sessionRes.data.session_key,
           expires: jscode2sessionRes.data.expires_in,
-        });
+        };
+
+        ctx.service.session
+          .insert(Object.assign({
+            openId: jscode2sessionRes.data.openid,
+          }, resData))
+          .then(() => {
+            response.sendSuccess(ctx, resData);
+          });
       } else {
         response.sendFail(ctx);
       }

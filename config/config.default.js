@@ -16,5 +16,17 @@ module.exports = appInfo => {
     grant_type: 'authorization_code',
   };
 
+
+  config.mongoose = {
+    client: {
+      url: 'mongodb://localhost:27017/loshi',
+      options: {
+        useNewUrlParser: true,
+      },
+    },
+  };
+
+  config.middleware = [ 'notfoundHandler' ];
+
   return config;
 };
