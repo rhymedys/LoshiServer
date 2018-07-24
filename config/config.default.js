@@ -9,5 +9,12 @@ module.exports = appInfo => {
   // add your config here
   config.middleware = [];
 
+  config.WXMiniProgramInfo = {
+    appid: 'wx5aa27a03d5399059',
+    secret: '56730088c4d53cafb62229cab23147bf',
+    js_code: '',
+    grant_type: 'authorization_code',
+  };
+
   return config;
 };
