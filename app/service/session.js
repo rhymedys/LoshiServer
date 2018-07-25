@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-24 16:16:48
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-07-25 10:42:09
+ * @Last Modified time: 2018-07-25 15:03:48
  */
 'use strict';
 const Service = require('egg').Service;
@@ -43,7 +43,7 @@ class SessionService extends Service {
    */
   async findByOpenId(openId) {
     if (openId) {
-      return this.ctx.model.Session
+      return this.getSessionModel()
         .findOne({
           openId,
         });

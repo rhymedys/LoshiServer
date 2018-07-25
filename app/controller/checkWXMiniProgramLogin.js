@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-24 11:14:30
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-07-24 16:59:43
+ * @Last Modified time: 2018-07-25 15:20:35
  */
 'use strict';
 const Controller = require('egg').Controller;
@@ -34,13 +34,15 @@ class CheckWXMiniProgramLoginController extends Controller {
           expires: jscode2sessionRes.data.expires_in,
         };
 
-        ctx.service.session
-          .insert(Object.assign({
-            openId: jscode2sessionRes.data.openid,
-          }, resData))
-          .then(() => {
-            response.sendSuccess(ctx, resData);
-          });
+        const insertRes = await ctx.service.session
+          .insert(Object.assign({ openId: jscode2sessionRes.data.openid }, resData));
+
+        if (insertRes._id) {
+          response.sendSuccess(ctx, resData);
+        } else {
+          response.sendFail(ctx);
+        }
+
       } else {
         response.sendFail(ctx);
       }
