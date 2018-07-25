@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-24 11:14:30
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-07-25 15:20:35
+ * @Last Modified time: 2018-07-25 16:11:19
  */
 'use strict';
 const Controller = require('egg').Controller;
@@ -10,8 +10,6 @@ const qs = require('qs');
 const response = require('../extend/response');
 
 class CheckWXMiniProgramLoginController extends Controller {
-
-
   /**
    * 登录凭证校验接口
    *
@@ -23,7 +21,6 @@ class CheckWXMiniProgramLoginController extends Controller {
       const jscode2sessionBody = Object.assign({}, ctx.app.config.WXMiniProgramInfo, {
         js_code: ctx.query.code,
       });
-
       const jscode2sessionRes = await ctx.curl(`https://api.weixin.qq.com/sns/jscode2session?${qs.stringify(jscode2sessionBody)}`, {
         dataType: 'json',
       });
@@ -36,16 +33,16 @@ class CheckWXMiniProgramLoginController extends Controller {
 
         const insertRes = await ctx.service.session
           .insert(Object.assign({ openId: jscode2sessionRes.data.openid }, resData));
-
         if (insertRes._id) {
           response.sendSuccess(ctx, resData);
         } else {
           response.sendFail(ctx);
         }
-
       } else {
         response.sendFail(ctx);
       }
+    } else {
+      response.sendFail(ctx);
     }
   }
 }
