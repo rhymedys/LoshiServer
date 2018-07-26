@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-24 16:16:48
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-07-25 15:03:48
+ * @Last Modified time: 2018-07-26 10:23:29
  */
 'use strict';
 const Service = require('egg').Service;
@@ -50,6 +50,25 @@ class SessionService extends Service {
     }
 
     return Promise.reject(new Error('openId 为空'));
+  }
+
+  /**
+   * 通过sessionId 查找session信息
+   *
+   * @param {*} JSESSIONID session值
+   * @return {Promise} 查找后promise对象
+   * @memberof SessionService
+   */
+  async findBySessionId(JSESSIONID) {
+    if (JSESSIONID) {
+      return this.getSessionModel()
+        .findOne({
+          JSESSIONID,
+        });
+    }
+
+    return Promise.reject(new Error('sessionId 为空'));
+
   }
 }
 

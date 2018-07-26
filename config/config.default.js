@@ -26,7 +26,7 @@ module.exports = appInfo => {
     },
   };
 
-  // config.middleware = [ 'notfoundHandler' ];
+  // config.middleware = [ 'checkSession' ];
 
   return config;
 };
