@@ -1,8 +1,8 @@
 /*
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-26 10:27:52
- * @Last Modified by:   Rhymedys
- * @Last Modified time: 2018-07-26 10:27:52
+ * @Last Modified by: Rhymedys
+ * @Last Modified time: 2018-07-30 15:40:13
  */
 
 'use strict';
@@ -24,7 +24,7 @@ function sendSuccess(ctx, data, resultDesc) {
    * @param {*} resultDesc 描述
    */
 function sendFail(ctx, resultDesc) {
-  send(ctx, null, -1, resultDesc || 'fail');
+  send(ctx, null, -1, resultDesc || 'error');
 }
 
 /**
