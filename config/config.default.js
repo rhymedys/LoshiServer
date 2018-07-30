@@ -17,14 +17,14 @@ module.exports = appInfo => {
   };
 
 
-  // config.mongoose = {
-  //   client: {
-  //     url: 'mongodb://localhost:27017/loshi',
-  //     options: {
-  //       useNewUrlParser: true,
-  //     },
-  //   },
-  // };
+  config.mongoose = {
+    client: {
+      url: 'mongodb://localhost:27017/loshi',
+      options: {
+        useNewUrlParser: true,
+      },
+    },
+  };
 
   config.mysql = {
     // 单数据库信息配置
