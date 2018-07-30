@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 09:46:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-07-30 09:58:37
+ * @Last Modified time: 2018-07-30 11:16:21
  */
 
 'use strict';
@@ -34,7 +34,11 @@ class TokenService extends Service {
   async insert(tokenObj) {
     if (tokenObj) {
       return this.getTokenModel()
-        .findOneAndUpdate(tokenObj);
+        .findOneAndUpdate({
+          userName: tokenObj.userName,
+        }, tokenObj, {
+          upsert: true,
+        });
     }
 
     return generateErrorPromise('tokenObj为空');
