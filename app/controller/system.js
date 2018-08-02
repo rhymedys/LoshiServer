@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:40:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-01 11:01:12
+ * @Last Modified time: 2018-08-01 13:40:07
  */
 
 'use strict';
@@ -18,6 +18,7 @@ class SystemController extends Controller {
    * @memberof SystemController
    */
   async create() {
+
     const { ctx } = this;
     const userInfo = await tokenUtils.getDBTokenInfoByCookiesToken(ctx);
     let userId = '';

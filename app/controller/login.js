@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-27 10:35:34
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-07-30 14:45:31
+ * @Last Modified time: 2018-08-02 11:43:39
  */
 
 'use strict';
@@ -35,7 +35,14 @@ class LoginController extends Controller {
               userName,
               expires: new Date().getTime() + 1000 * 60 * 60 * 2,
             });
-            response.sendSuccess(ctx, null, '登录成功');
+
+            const resUserInfo = {
+              name: findUserInfoByUserName.userName,
+              avatar: findUserInfoByUserName.userImg,
+              phone: findUserInfoByUserName.userPhone,
+              level: findUserInfoByUserName.level,
+            };
+            response.sendSuccess(ctx, resUserInfo, '登录成功');
           } else {
             response.sendFail(ctx, '密码错误');
           }
