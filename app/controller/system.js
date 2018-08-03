@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:40:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-01 13:40:07
+ * @Last Modified time: 2018-08-03 12:16:13
  */
 
 'use strict';
@@ -159,6 +159,32 @@ class SystemController extends Controller {
 
       } else {
         response.sendFail(ctx);
+      }
+    } else {
+      response.sendFail(ctx);
+    }
+  }
+
+  async queryByCurrentUser() {
+    const { ctx } = this;
+    const userInfo = await tokenUtils.getDBTokenInfoByCookiesToken(ctx);
+    const { start, limit } = ctx.query;
+    if (userInfo) {
+      const systems = ctx.service.system
+        .queryByUserIdAndStartAndLimit(userInfo.userId, start, limit);
+      const systemsTotalCount = ctx.service.system
+        .querySystemTotalCountByUserId(userInfo.userId);
+      const systemsInfo = await Promise.all([ systems, systemsTotalCount ])
+        .catch(e => {
+          this.logger.error(e);
+          response.sendFail(ctx);
+        });
+
+      if (systems) {
+        response.sendSuccess(ctx, {
+          rows: systemsInfo[0],
+          results: systemsInfo[1],
+        });
       }
     } else {
       response.sendFail(ctx);

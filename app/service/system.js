@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:12:13
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-07-30 15:39:53
+ * @Last Modified time: 2018-08-03 12:31:09
  */
 
 'use strict';
@@ -117,6 +117,48 @@ class SystemService extends Service {
     if (appId) {
       return this.dispatch('get', {
         appId,
+      });
+    }
+    return generateErrorPromise();
+  }
+
+
+  /**
+   *通过用户Id 查询应用信息
+   *
+   * @param {*} userId 用户Id
+   * @param {*} offset 起始位置
+   * @param {*} limit 数量
+   * @return {Promise} promise对象
+   * @memberof SystemService
+   */
+  async queryByUserIdAndStartAndLimit(userId, offset = 0, limit = 10) {
+    if (userId) {
+      return this.dispatch('select', {
+        where: {
+          userId,
+        },
+        columns: [ 'systemName', 'systemDomain', 'script', 'isUse', 'createTime', 'slowPageTime', 'slowJsTime', 'slowCssTime', 'slowImgTime', 'slowAajxTime', 'appId', 'userId', 'isStatisiPages', 'isStatisiAjax', 'isStatisiResource', 'isStatisiResource', 'isStatisiError' ],
+        offset,
+        limit,
+      });
+    }
+
+    return generateErrorPromise();
+  }
+
+
+  /**
+   * 查询用户的应用数量
+   *
+   * @param {*} userId 用户id
+   * @return {Promise} promise对象
+   * @memberof SystemService
+   */
+  async querySystemTotalCountByUserId(userId) {
+    if (userId) {
+      return this.dispatch('count', {
+        userId,
       });
     }
     return generateErrorPromise();

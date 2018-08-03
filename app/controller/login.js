@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-27 10:35:34
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-02 11:43:39
+ * @Last Modified time: 2018-08-03 11:07:33
  */
 
 'use strict';
@@ -33,11 +33,12 @@ class LoginController extends Controller {
             await tokenUtils.setTokenToDBByUserName(ctx, {
               token,
               userName,
+              userId: findUserInfoByUserName.id,
               expires: new Date().getTime() + 1000 * 60 * 60 * 2,
             });
 
             const resUserInfo = {
-              name: findUserInfoByUserName.userName,
+              name: userName,
               avatar: findUserInfoByUserName.userImg,
               phone: findUserInfoByUserName.userPhone,
               level: findUserInfoByUserName.level,
