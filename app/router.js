@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-24 11:16:52
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-03 11:15:34
+ * @Last Modified time: 2018-08-03 15:29:18
  */
 
 'use strict';
@@ -23,5 +23,6 @@ module.exports = app => {
   router.get('/loshi/api/system/delete', checkIsLogin, controller.system.delete);
   router.get('/loshi/api/user/query', checkIsLogin, controller.user.query);
   router.get('/loshi/api/system/queryByCurrentUser', checkIsLogin, controller.system.queryByCurrentUser);
+  router.get('/loshi/api/system/queryByAppId', checkIsLogin, controller.system.queryByAppId);
   router.post('/loshi/api/system/update', checkIsLogin, controller.system.update);
 };

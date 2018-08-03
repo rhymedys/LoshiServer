@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:12:13
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-03 12:31:09
+ * @Last Modified time: 2018-08-03 15:59:42
  */
 
 'use strict';
@@ -25,6 +25,26 @@ const notNullObj = [
   'isStatisiAjax',
   'isStatisiResource',
   'isStatisiSystem',
+  'isStatisiError',
+];
+
+const appConfigKey = [
+  'systemName',
+  'systemDomain',
+  'script',
+  'isUse',
+  'createTime',
+  'slowPageTime',
+  'slowJsTime',
+  'slowCssTime',
+  'slowImgTime',
+  'slowAajxTime',
+  'appId',
+  'userId',
+  'isStatisiPages',
+  'isStatisiAjax',
+  'isStatisiSystem',
+  'isStatisiResource',
   'isStatisiError',
 ];
 
@@ -115,8 +135,11 @@ class SystemService extends Service {
    */
   async queryByAppId(appId) {
     if (appId) {
-      return this.dispatch('get', {
-        appId,
+      return this.dispatch('select', {
+        where: {
+          appId,
+        },
+        columns: appConfigKey,
       });
     }
     return generateErrorPromise();
@@ -138,7 +161,7 @@ class SystemService extends Service {
         where: {
           userId,
         },
-        columns: [ 'systemName', 'systemDomain', 'script', 'isUse', 'createTime', 'slowPageTime', 'slowJsTime', 'slowCssTime', 'slowImgTime', 'slowAajxTime', 'appId', 'userId', 'isStatisiPages', 'isStatisiAjax', 'isStatisiResource', 'isStatisiResource', 'isStatisiError' ],
+        columns: appConfigKey,
         offset,
         limit,
       });

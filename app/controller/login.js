@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-27 10:35:34
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-03 11:07:33
+ * @Last Modified time: 2018-08-03 12:45:50
  */
 
 'use strict';
@@ -51,7 +51,6 @@ class LoginController extends Controller {
           response.sendFail(ctx, '账户不存在');
         }
       }
-
     }
   }
 }

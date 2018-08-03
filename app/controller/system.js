@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:40:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-03 12:16:13
+ * @Last Modified time: 2018-08-03 15:36:11
  */
 
 'use strict';
@@ -72,7 +72,11 @@ class SystemController extends Controller {
         response.sendFail(ctx);
       });
 
-    if (res) response.sendSuccess(ctx);
+    if (res) {
+      response.sendSuccess(ctx);
+    } else {
+      response.sendFail(ctx);
+    }
   }
 
 
@@ -91,7 +95,11 @@ class SystemController extends Controller {
           this.logger.error(e);
           response.sendFail(ctx);
         });
-      if (res) response.sendSuccess(ctx);
+      if (res) {
+        response.sendSuccess(ctx);
+      } else {
+        response.sendFail(ctx);
+      }
     } else {
       response.sendFail(ctx);
     }
@@ -155,8 +163,12 @@ class SystemController extends Controller {
             response.sendFail(ctx);
           });
 
-        if (updateByAppIdRes) response.sendSuccess(ctx);
+        if (updateByAppIdRes) {
+          response.sendSuccess(ctx);
 
+        } else {
+          response.sendFail(ctx);
+        }
       } else {
         response.sendFail(ctx);
       }
@@ -165,6 +177,12 @@ class SystemController extends Controller {
     }
   }
 
+
+  /**
+   * 查询挡墙用户的应用
+   *
+   * @memberof SystemController
+   */
   async queryByCurrentUser() {
     const { ctx } = this;
     const userInfo = await tokenUtils.getDBTokenInfoByCookiesToken(ctx);
@@ -185,6 +203,35 @@ class SystemController extends Controller {
           rows: systemsInfo[0],
           results: systemsInfo[1],
         });
+      } else {
+        response.sendFail(ctx);
+      }
+    } else {
+      response.sendFail(ctx);
+    }
+  }
+
+
+  /**
+   * 通过AppId查询应用设置
+   *
+   * @memberof SystemController
+   */
+  async queryByAppId() {
+    const { ctx } = this;
+    const { appId } = ctx.query;
+    if (appId) {
+      const appConfig = await ctx.service.system
+        .queryByAppId(appId)
+        .catch(e => {
+          this.logger.error(e);
+          response.sendFail(ctx);
+        });
+
+      if (appConfig && appConfig.appId) {
+        response.sendSuccess(ctx, appConfig);
+      } else {
+        response.sendFail(ctx);
       }
     } else {
       response.sendFail(ctx);
