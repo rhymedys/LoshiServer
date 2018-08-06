@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 15:54:02
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-06 17:05:09
+ * @Last Modified time: 2018-08-06 22:46:54
  */
 
 'use strict';
@@ -36,19 +36,22 @@ class PagesService extends Service {
    */
   async queryAllPagesUrlByAppId(appId) {
     if (appId) {
-      return this.app.mysql.query(`SELECT url,
-      AVG(loadTime) AS loadTime,
-      AVG(dnsTime) AS dnsTime,
-      AVG(tcpTime) AS tcpTime,
-      AVG(domTime) AS domTime,
-      AVG(resourceTime) AS resourceTime,
-      AVG(whiteTime) AS whiteTime,
-      AVG(redirectTime) AS redirectTime,
-      AVG(unloadTime) AS unloadTime,
-      AVG(requestTime) AS requestTime,
-      AVG(analysisDomTime) AS analysisDomTime,
-      AVG(readyTime) AS readyTime,
-      COUNT(url) AS count FROM web_pages WHERE systemId = ? GROUP BY url ORDER BY count DESC`, [ appId ]);
+      return this.app.mysql.query(
+        `SELECT url,
+        AVG(loadTime) AS loadTime,
+        AVG(dnsTime) AS dnsTime,
+        AVG(tcpTime) AS tcpTime,
+        AVG(domTime) AS domTime,
+        AVG(resourceTime) AS resourceTime,
+        AVG(whiteTime) AS whiteTime,
+        AVG(redirectTime) AS redirectTime,
+        AVG(unloadTime) AS unloadTime,
+        AVG(requestTime) AS requestTime,
+        AVG(analysisDomTime) AS analysisDomTime,
+        AVG(readyTime) AS readyTime,
+        COUNT(url) AS count FROM web_pages WHERE systemId = ? GROUP BY url ORDER BY count DESC`,
+        [ appId ]
+      );
     }
     return generateErrorPromise();
   }
