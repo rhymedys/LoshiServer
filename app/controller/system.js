@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:40:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-03 15:36:11
+ * @Last Modified time: 2018-08-06 13:42:59
  */
 
 'use strict';
@@ -228,8 +228,8 @@ class SystemController extends Controller {
           response.sendFail(ctx);
         });
 
-      if (appConfig && appConfig.appId) {
-        response.sendSuccess(ctx, appConfig);
+      if (appConfig && appConfig[0] && appConfig[0].appId) {
+        response.sendSuccess(ctx, appConfig[0]);
       } else {
         response.sendFail(ctx);
       }
