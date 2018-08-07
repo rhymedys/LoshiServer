@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 15:54:02
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-06 22:46:54
+ * @Last Modified time: 2018-08-07 09:24:14
  */
 
 'use strict';
@@ -31,10 +31,12 @@ class PagesService extends Service {
    * 通过AppId查询该AppId下的所有网址情况
    *
    * @param {*} appId 应用Id
+   * @param {*} start 起始位置
+   * @param {*} limit 分页大小
    * @return {Promise} 数据库操作后的Promise
    * @memberof PagesService
    */
-  async queryAllPagesUrlByAppId(appId) {
+  async queryAllPagesUrlByAppId(appId, start = 0, limit = 10) {
     if (appId) {
       return this.app.mysql.query(
         `SELECT url,
@@ -49,8 +51,8 @@ class PagesService extends Service {
         AVG(requestTime) AS requestTime,
         AVG(analysisDomTime) AS analysisDomTime,
         AVG(readyTime) AS readyTime,
-        COUNT(url) AS count FROM web_pages WHERE systemId = ? GROUP BY url ORDER BY count DESC`,
-        [ appId ]
+        COUNT(url) AS count FROM web_pages WHERE systemId = ? GROUP BY url ORDER BY count DESC  LIMIT ? ,?`,
+        [ appId, start, limit ]
       );
     }
     return generateErrorPromise();
