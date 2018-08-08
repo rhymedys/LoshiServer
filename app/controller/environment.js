@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-07 10:27:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-07 10:42:55
+ * @Last Modified time: 2018-08-08 12:04:26
  */
 
 'use strict';
@@ -19,18 +19,36 @@ class EnvironmentController extends Controller {
   async queryUrlEnvironmentByType() {
     const { ctx } = this;
     const { url, type } = ctx.query;
-    const res = await ctx.service.environment
-      .queryUrlEnvironmentByType(url, type)
-      .catch(e => {
-        this.logger.error(e);
-        response.sendFail(ctx);
-      });
+    let res;
+    if (type) {
+      res = await ctx.service.environment
+        .queryUrlEnvironmentByType(url, type)
+        .catch(e => {
+          this.logger.error(e);
+          response.sendFail(ctx);
+        });
+    } else {
+      res = await Promise.all([
+        ctx.service.environment
+          .queryUrlEnvironmentByType(url, 1),
+        ctx.service.environment
+          .queryUrlEnvironmentByType(url, 2),
+        ctx.service.environment
+          .queryUrlEnvironmentByType(url, 3),
+      ])
+        .catch(e => {
+          this.logger.error(e);
+          response.sendFail(ctx);
+        });
+    }
+
 
     if (res && Object.prototype.toString.call(res) === '[object Array]') {
       response.sendSuccess(ctx, res);
     } else {
       response.sendFail(ctx);
     }
+
   }
 }
 
