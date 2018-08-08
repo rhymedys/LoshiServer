@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-24 11:16:52
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-07 10:32:19
+ * @Last Modified time: 2018-08-08 11:40:31
  */
 
 'use strict';
@@ -34,6 +34,7 @@ module.exports = app => {
   // ----------------------------pages--------------------------------------
   router.get('/loshi/api/pages/queryAllPagesUrlByAppId', checkIsLogin, controller.pages.queryAllPagesUrlByAppId);
   router.get('/loshi/api/pages/queryPagesByUrl', checkIsLogin, controller.pages.queryPagesByUrl);
+  router.get('/loshi/api/pages/queryPagesSimpleInfoByUrlAndTime', checkIsLogin, controller.pages.queryPagesSimpleInfoByUrlAndTime);
 
   // ----------------------------environment--------------------------------------
   router.get('/loshi/api/environment/queryUrlEnvironmentByType', checkIsLogin, controller.environment.queryUrlEnvironmentByType);

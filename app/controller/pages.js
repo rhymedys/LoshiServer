@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 17:00:04
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-07 11:15:15
+ * @Last Modified time: 2018-08-08 11:45:45
  */
 'use strict';
 const Controller = require('egg').Controller;
@@ -59,6 +59,30 @@ class PagesController extends Controller {
     } else {
       response.sendFail(ctx);
     }
+  }
+
+
+  /**
+   *根据Url，创建时间范围查询性能概况
+   *
+   * @memberof PagesController
+   */
+  async queryPagesSimpleInfoByUrlAndTime() {
+    const { ctx } = this;
+    const { url, startCreateTime, endCreateTime } = ctx.query;
+    const res = await this.ctx.service.pages
+      .queryPagesSimpleInfoByUrlAndTime(url, startCreateTime, endCreateTime)
+      .catch(e => {
+        this.logger.error(e);
+        response.sendFail(ctx);
+      });
+
+    if (res && Object.prototype.toString.call(res) === '[object Array]') {
+      response.sendSuccess(ctx, res[0]);
+    } else {
+      response.sendFail(ctx);
+    }
+
   }
 }
 

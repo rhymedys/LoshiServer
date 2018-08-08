@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 15:54:02
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-07 11:19:05
+ * @Last Modified time: 2018-08-08 11:49:22
  */
 
 'use strict';
@@ -87,6 +87,50 @@ class PagesService extends Service {
       if (limit !== undefined) params.offset = Number(limit);
 
       return this.dispatch('select', params);
+    }
+    return generateErrorPromise();
+  }
+
+
+  /**
+   * 根据Url，创建时间范围查询性能概况
+   *
+   * @param {*} url url地址
+   * @param {*} startCreateTime 起始创建时间
+   * @param {*} endCreateTime 结束创建时间
+   * @return {Promise} 数据库操作后的Promise
+   * @memberof PagesService
+   */
+  async queryPagesSimpleInfoByUrlAndTime(url, startCreateTime, endCreateTime) {
+    if (url) {
+      let sql = `SELECT
+      AVG(loadTime) AS loadTime,
+      AVG(dnsTime) AS dnsTime,
+      AVG(tcpTime) AS tcpTime,
+      AVG(domTime) AS domTime,
+      AVG(resourceTime) AS resourceTime,
+      AVG(whiteTime) AS whiteTime,
+      AVG(redirectTime) AS redirectTime,
+      AVG(unloadTime) AS unloadTime,
+      AVG(requestTime) AS requestTime,
+      AVG(analysisDomTime) AS analysisDomTime,
+      AVG(readyTime) AS readyTime,
+      COUNT(url) AS count FROM web_pages WHERE url=?`;
+      const params = [ decodeURIComponent(url) ];
+      if (startCreateTime) {
+        sql += ` And createTime >= '${startCreateTime}'`;
+        params.push(startCreateTime);
+      }
+
+      if (endCreateTime) {
+        sql += ` And createTime <= '${endCreateTime}'`;
+        params.push(endCreateTime);
+      }
+
+      return this.app.mysql.query(
+        sql,
+        params
+      );
     }
     return generateErrorPromise();
   }
