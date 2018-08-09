@@ -2,12 +2,12 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 17:00:04
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-08 13:34:36
+ * @Last Modified time: 2018-08-09 17:38:32
  */
 'use strict';
 const Controller = require('egg').Controller;
 const response = require('../extend/response');
-
+const utils = require('../extend/utils');
 class PagesController extends Controller {
 
   /**
@@ -27,7 +27,11 @@ class PagesController extends Controller {
 
     if (res && Object.prototype.toString.call(res) === '[object Array]') {
       response.sendSuccess(ctx, {
-        rows: res.slice(start, limit),
+        rows: res
+          .slice(start, limit)
+          .map(val => Object.assign({}, val, {
+            createTime: utils.formatDate2YYYYMMDDHHMMSS(val.createTime),
+          })),
         results: res.length,
       });
     } else {
@@ -53,7 +57,11 @@ class PagesController extends Controller {
 
     if (res && Object.prototype.toString.call(res) === '[object Array]') {
       response.sendSuccess(ctx, {
-        rows: res.slice(start, limit),
+        rows: res
+          .slice(start, limit)
+          .map(val => Object.assign({}, val, {
+            createTime: utils.formatDate2YYYYMMDDHHMMSS(val.createTime),
+          })),
         results: res.length,
       });
     } else {

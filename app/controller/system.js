@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:40:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-06 13:42:59
+ * @Last Modified time: 2018-08-09 17:41:06
  */
 
 'use strict';
@@ -11,6 +11,7 @@ const response = require('../extend/response');
 const uuidv1 = require('uuid/v1');
 const moment = require('moment');
 const tokenUtils = require('../extend/token');
+const utils = require('../extend/utils');
 class SystemController extends Controller {
   /**
    * 新建应用
@@ -200,7 +201,10 @@ class SystemController extends Controller {
 
       if (systems) {
         response.sendSuccess(ctx, {
-          rows: systemsInfo[0],
+          rows: systemsInfo[0]
+            .map(val => Object.assign({}, val, {
+              createTime: utils.formatDate2YYYYMMDDHHMMSS(val.createTime),
+            })),
           results: systemsInfo[1],
         });
       } else {
@@ -229,7 +233,9 @@ class SystemController extends Controller {
         });
 
       if (appConfig && appConfig[0] && appConfig[0].appId) {
-        response.sendSuccess(ctx, appConfig[0]);
+        response.sendSuccess(ctx, Object.assign({}, appConfig[0], {
+          createTime: utils.formatDate2YYYYMMDDHHMMSS(appConfig[0].createTime),
+        }));
       } else {
         response.sendFail(ctx);
       }

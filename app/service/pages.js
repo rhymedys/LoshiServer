@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 15:54:02
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-08 11:49:22
+ * @Last Modified time: 2018-08-09 17:07:07
  */
 
 'use strict';
@@ -126,6 +126,8 @@ class PagesService extends Service {
         sql += ` And createTime <= '${endCreateTime}'`;
         params.push(endCreateTime);
       }
+
+      sql += ' ORDER BY createTime DESC';
 
       return this.app.mysql.query(
         sql,
