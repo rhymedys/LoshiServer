@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-07 10:11:11
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-07 10:50:14
+ * @Last Modified time: 2018-08-09 13:54:25
  */
 'use strict';
 const Service = require('egg').Service;
@@ -43,20 +43,20 @@ class EnvironmentService extends Service {
         borwserVersion ,
         COUNT(*) as count
         FROM web_environment
-        WHERE url=? GROUP BY browser,borwserVersion`;
+        WHERE url=? GROUP BY browser,borwserVersion ORDER BY count DESC`;
       } else if (Number(type) === 2) {
         // 系统类型
         sql = `SELECT system ,
         systemVersion ,
         COUNT(*) as count
         FROM web_environment
-        WHERE url=? GROUP BY system,systemVersion`;
+        WHERE url=? GROUP BY system,systemVersion ORDER BY count DESC`;
       } else {
         // 城市类型
         sql = `SELECT city ,
         COUNT(*) as count 
         FROM web_environment
-        WHERE url=? GROUP BY city`;
+        WHERE url=? GROUP BY city ORDER BY count DESC`;
       }
 
       return this.app.mysql.query(
