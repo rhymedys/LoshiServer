@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:40:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-09 17:41:06
+ * @Last Modified time: 2018-08-09 17:45:46
  */
 
 'use strict';
@@ -233,9 +233,16 @@ class SystemController extends Controller {
         });
 
       if (appConfig && appConfig[0] && appConfig[0].appId) {
-        response.sendSuccess(ctx, Object.assign({}, appConfig[0], {
-          createTime: utils.formatDate2YYYYMMDDHHMMSS(appConfig[0].createTime),
-        }));
+        response.sendSuccess(
+          ctx,
+          Object.assign(
+            {},
+            appConfig[0],
+            {
+              createTime: utils.formatDate2YYYYMMDDHHMMSS(appConfig[0].createTime),
+            }
+          )
+        );
       } else {
         response.sendFail(ctx);
       }

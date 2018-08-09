@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 15:54:02
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-09 17:07:07
+ * @Last Modified time: 2018-08-09 20:24:47
  */
 
 'use strict';
@@ -83,8 +83,10 @@ class PagesService extends Service {
         },
       };
 
-      if (start !== undefined) params.start = Number(start);
-      if (limit !== undefined) params.offset = Number(limit);
+      if (start !== undefined && limit !== undefined) {
+        params.start = Number(start);
+        params.offset = Number(limit);
+      }
 
       return this.dispatch('select', params);
     }

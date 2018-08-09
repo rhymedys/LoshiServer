@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-24 11:16:52
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-08 11:40:31
+ * @Last Modified time: 2018-08-09 20:02:19
  */
 
 'use strict';
@@ -38,4 +38,12 @@ module.exports = app => {
 
   // ----------------------------environment--------------------------------------
   router.get('/loshi/api/environment/queryUrlEnvironmentByType', checkIsLogin, controller.environment.queryUrlEnvironmentByType);
+
+  // ----------------------------ajax--------------------------------------
+  router.get('/loshi/api/ajax/queryList', checkIsLogin, controller.ajax.queryList);
+
+  // ----------------------------slowResource--------------------------------------
+  router.get('/loshi/api/slowResource/queryList', checkIsLogin, controller.slowResource.queryList);
+  // ----------------------------slowResource--------------------------------------
+  router.get('/loshi/api/slowPages/queryList', checkIsLogin, controller.slowPages.queryList);
 };

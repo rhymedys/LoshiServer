@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:12:13
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-03 15:59:42
+ * @Last Modified time: 2018-08-09 20:23:50
  */
 
 'use strict';
@@ -162,8 +162,8 @@ class SystemService extends Service {
           userId,
         },
         columns: appConfigKey,
-        offset,
-        limit,
+        offset: Number(offset),
+        limit: Number(limit),
       });
     }
 
