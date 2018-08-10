@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-07 10:27:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-09 19:40:36
+ * @Last Modified time: 2018-08-10 11:15:09
  */
 
 'use strict';
@@ -13,14 +13,14 @@ const utils = require('../extend/utils');
 class SlowResourceController extends Controller {
 
   /**
-   * 查询列表
+   * 通过URL查询列表
    *
    * @memberof SlowResourceController
    */
-  async queryList() {
+  async queryListByCallUrl() {
     const { ctx } = this;
     const res = await ctx.service.slowResource
-      .queryList(ctx.query)
+      .queryListByCallUrl(ctx.query)
       .catch(e => {
         this.logger.error(e);
         response.sendFail(ctx);
@@ -36,6 +36,31 @@ class SlowResourceController extends Controller {
             createTime: utils.formatDate2YYYYMMDDHHMMSS(val.createTime),
           }
         ))
+      );
+    } else {
+      response.sendFail(ctx);
+    }
+  }
+
+  /**
+   * 通过URL查询列表数量
+   *
+   * @memberof SlowResourceController
+   */
+  async queryListCountByCallUrl() {
+    const { ctx } = this;
+    const res = await ctx.service.slowResource
+      .queryListCountByCallUrl(ctx.query)
+      .catch(e => {
+        this.logger.error(e);
+        response.sendFail(ctx);
+      });
+
+    if (res && Object.prototype.toString.call(res) === '[object Array]') {
+      console.log(res);
+      response.sendSuccess(
+        ctx,
+        res[0] ? res[0].count : 0
       );
     } else {
       response.sendFail(ctx);

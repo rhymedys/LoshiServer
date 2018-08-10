@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 15:54:02
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-09 20:24:47
+ * @Last Modified time: 2018-08-10 13:49:06
  */
 
 'use strict';
@@ -36,7 +36,7 @@ class PagesService extends Service {
    * @return {Promise} 数据库操作后的Promise
    * @memberof PagesService
    */
-  async queryAllPagesUrlByAppId(appId, start, limit) {
+  async queryAllPagesUrlByAppId({ appId, start, limit }) {
     if (appId) {
       let sql = `SELECT url,
       AVG(loadTime) AS loadTime,
@@ -66,6 +66,35 @@ class PagesService extends Service {
     return generateErrorPromise();
   }
 
+
+  /**
+   * 通过AppId查询该AppId下的所有网址数量
+   *
+   * @param {*} { appId } 应用Id
+   * @return {Promise} 数据库操作后的Promise
+   * @memberof PagesService
+   */
+  async queryAllPagesUrlCountByAppId({ appId }) {
+    if (appId) {
+      const sql = `SELECT COUNT(1) AS count 
+      FROM(
+        SELECT COUNT(1) AS count
+        FROM web_pages
+        WHERE systemId = ?
+        GROUP BY url
+      )
+      p`;
+
+      return this.app.mysql.query(
+        sql,
+        [ appId ]
+      );
+    }
+
+
+    return generateErrorPromise();
+  }
+
   /**
    * 通过url查询url的加载情况
    *
@@ -75,7 +104,7 @@ class PagesService extends Service {
    * @return  {Promise} 数据库操作后的Promise
    * @memberof PagesService
    */
-  async queryPagesByUrl(url, start, limit) {
+  async queryPagesByUrl({ url, start, limit }) {
     if (url) {
       const params = {
         where: {
@@ -90,6 +119,32 @@ class PagesService extends Service {
 
       return this.dispatch('select', params);
     }
+    return generateErrorPromise();
+  }
+
+
+  /**
+   * 通过url查询url的加载情况的数量
+   *
+   * @param {*} { url } url地址
+   * @return {Promise} 数据库操作后的Promise
+   * @memberof PagesService
+   */
+  async queryPagesCountByUrl({ url }) {
+    if (url) {
+      const sql = `SELECT COUNT(1) AS count
+      FROM web_pages
+      WHERE url= ? 
+      `;
+
+      return this.app.mysql.query(
+        sql,
+        [
+          decodeURIComponent(url),
+        ]
+      );
+    }
+
     return generateErrorPromise();
   }
 

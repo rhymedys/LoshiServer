@@ -2,25 +2,12 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-09 17:57:40
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-09 19:35:46
+ * @Last Modified time: 2018-08-10 12:27:43
  */
 'use strict';
 
 const Service = require('egg').Service;
 const generateErrorPromise = require('../extend/utils').generateErrorPromise;
-
-const queryCol = [
-  'systemId',
-  'name',
-  'method',
-  'duration',
-  'decodedBodySize',
-  'createTime',
-  'callUrl',
-  'markUser',
-  'markPage',
-  'querydata',
-];
 
 class AjaxService extends Service {
   /**
@@ -39,28 +26,64 @@ class AjaxService extends Service {
   }
 
   /**
-   * 查询列表
+   * 通过Url查询列表
    *
    * @param {*} { callUrl, start, limit } callUrl 访问页面,start 其实索引,limit 分页大小
    * @return {Promise} 数据库操作后的Promise
    * @memberof AjaxService
    */
-  async queryList({ callUrl, start, limit }) {
+  async queryListGroupByNameByCallUrl({ callUrl, start, limit }) {
     if (callUrl) {
-      const options = {
-        where: {
-          callUrl: decodeURIComponent(callUrl),
-        },
-        columns: queryCol,
-        orders: [[ 'createTime', 'desc' ]],
-      };
+      let sql = `SELECT name,
+      callUrl,
+      AVG(duration) AS duration, 
+      AVG(decodedBodySize) AS decodedBodySize 
+      FROM web_ajax 
+      WHERE callUrl =?  
+      GROUP BY name `;
 
-      if (start !== undefined) options.offset = Number(start);
-      if (limit !== undefined) options.limit = Number(limit);
+      const options = [ decodeURIComponent(callUrl) ];
 
-      return this.dispatch('select', options);
+      if (start !== undefined && limit !== undefined) {
+        sql += 'LIMIT ?,?';
+        options.push(Number(start), Number(limit));
+      }
+
+      return this.app.mysql.query(
+        sql,
+        options
+      );
     }
 
+    return generateErrorPromise();
+  }
+
+
+  /**
+   * 通过Url查询列表数量
+   *
+   * @param {*} {callUrl}  callUrl 访问页面
+   * @return  {Promise} 数据库操作后的Promise
+   * @memberof AjaxService
+   */
+  async queryListCountGroupByNameByCallUrl({ callUrl }) {
+    if (callUrl) {
+      const sql = `SELECT COUNT(1) AS count 
+      FROM ( 
+          SELECT COUNT(1) AS count 
+          FROM web_ajax 
+          WHERE callUrl = ?
+          GROUP BY name 
+      ) 
+      p`;
+
+      const options = [ decodeURIComponent(callUrl) ];
+
+      return this.app.mysql.query(
+        sql,
+        options
+      );
+    }
     return generateErrorPromise();
   }
 

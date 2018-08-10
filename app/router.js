@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-24 11:16:52
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-09 20:02:19
+ * @Last Modified time: 2018-08-10 13:44:24
  */
 
 'use strict';
@@ -33,17 +33,23 @@ module.exports = app => {
 
   // ----------------------------pages--------------------------------------
   router.get('/loshi/api/pages/queryAllPagesUrlByAppId', checkIsLogin, controller.pages.queryAllPagesUrlByAppId);
+  router.get('/loshi/api/pages/queryAllPagesUrlCountByAppId', checkIsLogin, controller.pages.queryAllPagesUrlCountByAppId);
   router.get('/loshi/api/pages/queryPagesByUrl', checkIsLogin, controller.pages.queryPagesByUrl);
+  router.get('/loshi/api/pages/queryPagesCountByUrl', checkIsLogin, controller.pages.queryPagesCountByUrl);
   router.get('/loshi/api/pages/queryPagesSimpleInfoByUrlAndTime', checkIsLogin, controller.pages.queryPagesSimpleInfoByUrlAndTime);
 
   // ----------------------------environment--------------------------------------
   router.get('/loshi/api/environment/queryUrlEnvironmentByType', checkIsLogin, controller.environment.queryUrlEnvironmentByType);
 
   // ----------------------------ajax--------------------------------------
-  router.get('/loshi/api/ajax/queryList', checkIsLogin, controller.ajax.queryList);
+  router.get('/loshi/api/ajax/queryListGroupByNameByCallUrl', checkIsLogin, controller.ajax.queryListGroupByNameByCallUrl);
+  router.get('/loshi/api/ajax/queryListCountGroupByNameByCallUrl', checkIsLogin, controller.ajax.queryListCountGroupByNameByCallUrl);
 
   // ----------------------------slowResource--------------------------------------
-  router.get('/loshi/api/slowResource/queryList', checkIsLogin, controller.slowResource.queryList);
-  // ----------------------------slowResource--------------------------------------
-  router.get('/loshi/api/slowPages/queryList', checkIsLogin, controller.slowPages.queryList);
+  router.get('/loshi/api/slowResource/queryListByCallUrl', checkIsLogin, controller.slowResource.queryListByCallUrl);
+  router.get('/loshi/api/slowResource/queryListCountByCallUrl', checkIsLogin, controller.slowResource.queryListCountByCallUrl);
+
+  // ----------------------------slowPages--------------------------------------
+  router.get('/loshi/api/slowPages/querListByUrl', checkIsLogin, controller.slowPages.querListByUrl);
+  router.get('/loshi/api/slowPages/querListCountByUrl', checkIsLogin, controller.slowPages.querListCountByUrl);
 };

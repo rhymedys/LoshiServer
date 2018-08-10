@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-09 19:31:21
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-09 20:23:11
+ * @Last Modified time: 2018-08-10 11:15:24
  */
 
 'use strict';
@@ -41,28 +41,58 @@ class SlowResourceService extends Service {
 
 
   /**
-   * 查询列表
+   * 通过URL查询列表
    *
    * @param {*} { callUrl, start, limit } callUrl 访问页面,start 其实索引,limit 分页大小
    * @return  {Promise} 数据库操作后的Promise
    * @memberof ResourceService
    */
-  async queryList({ callUrl, start, limit }) {
+  async queryListByCallUrl({ callUrl, start, limit }) {
     if (callUrl) {
-      const options = {
-        where: {
-          callUrl: decodeURIComponent(callUrl),
-        },
-        columns: queryCol,
-        orders: [[ 'createTime', 'desc' ]],
-      };
+      let sql = `SELECT name,
+      duration,
+      decodedBodySize,
+      createTime,
+      callUrl 
+      FROM web_slowresources
+      WHERE callUrl = ? `;
+
+      const options = [ decodeURIComponent(callUrl) ];
 
       if (start !== undefined && limit !== undefined) {
-        options.offset = Number(start);
-        options.limit = Number(limit);
+        sql += 'LIMIT ?,?';
+        options.push(Number(start), Number(limit));
       }
 
-      return this.dispatch('select', options);
+      return this.app.mysql.query(
+        sql,
+        options
+      );
+    }
+
+    return generateErrorPromise();
+  }
+
+
+  /**
+   * 通过URL查询列表数量
+   *
+   * @param {*} { callUrl } callUrl 访问页面
+   * @return {Promise} 数据库操作后的Promise
+   * @memberof SlowResourceService
+   */
+  async queryListCountByCallUrl({ callUrl }) {
+    if (callUrl) {
+      const sql = `SELECT COUNT(1) as count
+      FROM web_slowresources
+      WHERE callUrl = ? `;
+
+      const options = [ decodeURIComponent(callUrl) ];
+
+      return this.app.mysql.query(
+        sql,
+        options
+      );
     }
 
     return generateErrorPromise();

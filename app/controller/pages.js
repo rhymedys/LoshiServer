@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 17:00:04
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-09 17:38:32
+ * @Last Modified time: 2018-08-10 13:43:42
  */
 'use strict';
 const Controller = require('egg').Controller;
@@ -17,23 +17,44 @@ class PagesController extends Controller {
    */
   async queryAllPagesUrlByAppId() {
     const { ctx } = this;
-    const { appId, start, limit } = ctx.query;
     const res = await this.ctx.service.pages
-      .queryAllPagesUrlByAppId(appId)
+      .queryAllPagesUrlByAppId(ctx.query)
       .catch(e => {
         this.logger.error(e);
         response.sendFail(ctx);
       });
 
     if (res && Object.prototype.toString.call(res) === '[object Array]') {
-      response.sendSuccess(ctx, {
-        rows: res
-          .slice(start, limit)
-          .map(val => Object.assign({}, val, {
-            createTime: utils.formatDate2YYYYMMDDHHMMSS(val.createTime),
-          })),
-        results: res.length,
+      response.sendSuccess(
+        ctx,
+        res.map(val => Object.assign({}, val, {
+          createTime: utils.formatDate2YYYYMMDDHHMMSS(val.createTime),
+        }))
+      );
+    } else {
+      response.sendFail(ctx);
+    }
+  }
+
+  /**
+   * 通过AppId查询该AppId下的受访地址信息数量
+   *
+   * @memberof PagesController
+   */
+  async queryAllPagesUrlCountByAppId() {
+    const { ctx } = this;
+    const res = await this.ctx.service.pages
+      .queryAllPagesUrlCountByAppId(ctx.query)
+      .catch(e => {
+        this.logger.error(e);
+        response.sendFail(ctx);
       });
+
+    if (res && Object.prototype.toString.call(res) === '[object Array]') {
+      response.sendSuccess(
+        ctx,
+        res[0] ? res[0].count : 0
+      );
     } else {
       response.sendFail(ctx);
     }
@@ -47,23 +68,45 @@ class PagesController extends Controller {
    */
   async queryPagesByUrl() {
     const { ctx } = this;
-    const { url, start, limit } = ctx.query;
     const res = await this.ctx.service.pages
-      .queryPagesByUrl(url)
+      .queryPagesByUrl(ctx.query)
       .catch(e => {
         this.logger.error(e);
         response.sendFail(ctx);
       });
 
     if (res && Object.prototype.toString.call(res) === '[object Array]') {
-      response.sendSuccess(ctx, {
-        rows: res
-          .slice(start, limit)
-          .map(val => Object.assign({}, val, {
-            createTime: utils.formatDate2YYYYMMDDHHMMSS(val.createTime),
-          })),
-        results: res.length,
+      response.sendSuccess(
+        ctx,
+        res.map(val => Object.assign({}, val, {
+          createTime: utils.formatDate2YYYYMMDDHHMMSS(val.createTime),
+        }))
+      );
+    } else {
+      response.sendFail(ctx);
+    }
+  }
+
+
+  /**
+   * 通过url查询url的加载情况的数量
+   *
+   * @memberof PagesController
+   */
+  async queryPagesCountByUrl() {
+    const { ctx } = this;
+    const res = await this.ctx.service.pages
+      .queryPagesCountByUrl(ctx.query)
+      .catch(e => {
+        this.logger.error(e);
+        response.sendFail(ctx);
       });
+
+    if (res && Object.prototype.toString.call(res) === '[object Array]') {
+      response.sendSuccess(
+        ctx,
+        res[0] ? res[0].count : 0
+      );
     } else {
       response.sendFail(ctx);
     }
