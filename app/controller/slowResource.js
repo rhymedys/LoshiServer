@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-07 10:27:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-10 11:15:09
+ * @Last Modified time: 2018-08-13 13:49:18
  */
 
 'use strict';
@@ -14,7 +14,7 @@ class SlowResourceController extends Controller {
 
   /**
    * 通过URL查询列表
-   *
+   *j
    * @memberof SlowResourceController
    */
   async queryListByCallUrl() {

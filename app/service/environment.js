@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-07 10:11:11
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-09 13:54:25
+ * @Last Modified time: 2018-08-13 16:44:30
  */
 'use strict';
 const Service = require('egg').Service;
@@ -33,7 +33,7 @@ class EnvironmentService extends Service {
    * @return {Promise} 数据库操作后的Promise
    * @memberof PagesService
    */
-  async queryUrlEnvironmentByType(url, type) {
+  async queryUrlEnvironmentByType({ url, startDate, endDate, type }) {
     if (url && type) {
       const param = [ decodeURIComponent(url) ];
       let sql = '';
@@ -43,21 +43,42 @@ class EnvironmentService extends Service {
         borwserVersion ,
         COUNT(*) as count
         FROM web_environment
-        WHERE url=? GROUP BY browser,borwserVersion ORDER BY count DESC`;
+        WHERE url=? <--otherConidition--> GROUP BY browser,borwserVersion ORDER BY count DESC `;
       } else if (Number(type) === 2) {
         // 系统类型
         sql = `SELECT system ,
         systemVersion ,
         COUNT(*) as count
         FROM web_environment
-        WHERE url=? GROUP BY system,systemVersion ORDER BY count DESC`;
+        WHERE url=? <--otherConidition--> GROUP BY system,systemVersion ORDER BY count DESC `;
       } else {
         // 城市类型
         sql = `SELECT city ,
         COUNT(*) as count 
         FROM web_environment
-        WHERE url=? GROUP BY city ORDER BY count DESC`;
+        WHERE url=? <--otherConidition--> GROUP BY city ORDER BY count DESC `;
       }
+
+
+      sql = sql.replace('<--otherConidition-->', function() {
+        let res = '';
+        if (startDate !== undefined) {
+          param.push(startDate);
+          res += 'AND createTime >= ? ';
+
+        }
+
+        if (endDate !== undefined) {
+          res += 'AND createTime <=  ? ';
+          param.push(endDate);
+        }
+
+        return res;
+      });
+
+
+      console.log(sql, startDate, endDate);
+
 
       return this.app.mysql.query(
         sql,

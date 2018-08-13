@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 15:54:02
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-10 13:49:06
+ * @Last Modified time: 2018-08-13 16:46:16
  */
 
 'use strict';
@@ -158,7 +158,7 @@ class PagesService extends Service {
    * @return {Promise} 数据库操作后的Promise
    * @memberof PagesService
    */
-  async queryPagesSimpleInfoByUrlAndTime(url, startCreateTime, endCreateTime) {
+  async queryPagesSimpleInfoByUrlAndTime({ url, startCreateTime, endCreateTime }) {
     if (url) {
       let sql = `SELECT
       AVG(loadTime) AS loadTime,
@@ -175,12 +175,12 @@ class PagesService extends Service {
       COUNT(url) AS count FROM web_pages WHERE url=?`;
       const params = [ decodeURIComponent(url) ];
       if (startCreateTime) {
-        sql += ` And createTime >= '${startCreateTime}'`;
+        sql += ' And createTime >= ?';
         params.push(startCreateTime);
       }
 
       if (endCreateTime) {
-        sql += ` And createTime <= '${endCreateTime}'`;
+        sql += ' And createTime <= ?';
         params.push(endCreateTime);
       }
 

@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 17:00:04
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-10 13:43:42
+ * @Last Modified time: 2018-08-13 16:17:19
  */
 'use strict';
 const Controller = require('egg').Controller;
@@ -120,9 +120,9 @@ class PagesController extends Controller {
    */
   async queryPagesSimpleInfoByUrlAndTime() {
     const { ctx } = this;
-    const { url, startCreateTime, endCreateTime } = ctx.query;
+    const { url, startDate, endDate } = ctx.query;
     const res = await this.ctx.service.pages
-      .queryPagesSimpleInfoByUrlAndTime(url, startCreateTime, endCreateTime)
+      .queryPagesSimpleInfoByUrlAndTime({ url, startCreateTime: startDate, endCreateTime: endDate })
       .catch(e => {
         this.logger.error(e);
         response.sendFail(ctx);
