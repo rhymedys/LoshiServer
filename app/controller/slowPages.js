@@ -2,12 +2,13 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-09 19:59:16
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-10 11:15:31
+ * @Last Modified time: 2018-08-13 10:12:38
  */
 
 'use strict';
 const Controller = require('egg').Controller;
 const response = require('../extend/response');
+const utils = require('../extend/utils');
 
 class SlowPagesController extends Controller {
 
@@ -28,7 +29,13 @@ class SlowPagesController extends Controller {
     if (res && Object.prototype.toString.call(res) === '[object Array]') {
       response.sendSuccess(
         ctx,
-        res
+        res.map(val => Object.assign(
+          {},
+          val,
+          {
+            createTime: utils.formatDate2YYYYMMDDHHMMSS(val.createTime),
+          }
+        ))
       );
     } else {
       response.sendFail(ctx);
