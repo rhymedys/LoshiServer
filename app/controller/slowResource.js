@@ -57,7 +57,6 @@ class SlowResourceController extends Controller {
       });
 
     if (res && Object.prototype.toString.call(res) === '[object Array]') {
-      console.log(res);
       response.sendSuccess(
         ctx,
         res[0] ? res[0].count : 0

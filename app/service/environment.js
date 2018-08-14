@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-07 10:11:11
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-13 16:44:30
+ * @Last Modified time: 2018-08-14 09:25:42
  */
 'use strict';
 const Service = require('egg').Service;
@@ -75,10 +75,6 @@ class EnvironmentService extends Service {
 
         return res;
       });
-
-
-      console.log(sql, startDate, endDate);
-
 
       return this.app.mysql.query(
         sql,

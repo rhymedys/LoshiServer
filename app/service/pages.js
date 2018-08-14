@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 15:54:02
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-13 16:46:16
+ * @Last Modified time: 2018-08-14 09:42:38
  */
 
 'use strict';
@@ -104,20 +104,32 @@ class PagesService extends Service {
    * @return  {Promise} 数据库操作后的Promise
    * @memberof PagesService
    */
-  async queryPagesByUrl({ url, start, limit }) {
+  async queryPagesByUrl({ url, start, limit, startDate, endDate }) {
     if (url) {
-      const params = {
-        where: {
-          url: decodeURIComponent(url),
-        },
-      };
+      let sql = `SELECT * FROM web_pages
+      WHERE url = ? `;
+      const params = [ decodeURIComponent(url) ];
 
-      if (start !== undefined && limit !== undefined) {
-        params.start = Number(start);
-        params.offset = Number(limit);
+      if (startDate) {
+        sql += ' And createTime >= ? ';
+        params.push(startDate);
       }
 
-      return this.dispatch('select', params);
+      if (endDate) {
+        sql += ' And createTime <= ? ';
+        params.push(endDate);
+      }
+
+
+      if (start !== undefined && limit !== undefined) {
+        params.push(Number(start), Number(limit));
+        sql += ' LIMIT ?,?';
+      }
+
+      return this.app.mysql.query(
+        sql,
+        params
+      );
     }
     return generateErrorPromise();
   }
@@ -130,18 +142,27 @@ class PagesService extends Service {
    * @return {Promise} 数据库操作后的Promise
    * @memberof PagesService
    */
-  async queryPagesCountByUrl({ url }) {
+  async queryPagesCountByUrl({ url, startDate, endDate }) {
     if (url) {
-      const sql = `SELECT COUNT(1) AS count
+      let sql = `SELECT COUNT(1) AS count
       FROM web_pages
-      WHERE url= ? 
-      `;
+      WHERE url= ? `;
+
+      const params = [ decodeURIComponent(url) ];
+      if (startDate) {
+        sql += ' And createTime >= ? ';
+        params.push(startDate);
+      }
+
+      if (endDate) {
+        sql += ' And createTime <= ? ';
+        params.push(endDate);
+      }
+
 
       return this.app.mysql.query(
         sql,
-        [
-          decodeURIComponent(url),
-        ]
+        params
       );
     }
 
