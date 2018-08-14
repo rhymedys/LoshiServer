@@ -2,13 +2,12 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-14 14:11:56
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-14 14:45:11
+ * @Last Modified time: 2018-08-14 16:28:40
  */
 'use strict';
 
 const Controller = require('egg').Controller;
 const response = require('../extend/response');
-const utils = require('../extend/utils');
 
 class ErrorController extends Controller {
 
@@ -30,9 +29,7 @@ class ErrorController extends Controller {
     if (res && Object.prototype.toString.call(res) === '[object Array]') {
       response.sendSuccess(
         ctx,
-        res.map(val => Object.assign({}, val, {
-          createTime: utils.formatDate2YYYYMMDDHHMMSS(val.createTime),
-        }))
+        res
       );
     } else {
       response.sendFail(ctx);

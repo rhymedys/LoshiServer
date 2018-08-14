@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-14 14:13:20
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-14 14:54:04
+ * @Last Modified time: 2018-08-14 16:26:45
  */
 
 'use strict';
@@ -35,11 +35,11 @@ class ErrorService extends Service {
    */
   async getList({ appId, startDate, endDate, start, limit, category }) {
     if (appId) {
-      let sql = `SELECT resourceUrl, msg, category, createTime, count( resourceUrl ) AS count 
+      let sql = `SELECT resourceUrl, category, count( resourceUrl ) AS count 
         FROM web_error 
         WHERE systemId = ? 
         <--otherConidition-->
-        GROUP BY resourceUrl, msg, category `;
+        GROUP BY resourceUrl, category `;
       const params = [ appId ];
 
       sql = sql.replace('<--otherConidition-->', function() {
@@ -87,11 +87,11 @@ class ErrorService extends Service {
     if (appId) {
       let sql = `SELECT COUNT(1) AS count 
       FROM (
-        SELECT resourceUrl, msg, category, createTime, count( resourceUrl ) AS count 
+        SELECT resourceUrl, category, count( resourceUrl ) AS count 
         FROM web_error 
         WHERE systemId = ? 
         <--otherConidition-->
-        GROUP BY resourceUrl, msg, category
+        GROUP BY resourceUrl,category
       )p`;
       const params = [ appId ];
 
