@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-14 14:13:20
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-14 16:26:45
+ * @Last Modified time: 2018-08-15 10:58:26
  */
 
 'use strict';
@@ -114,6 +114,94 @@ class ErrorService extends Service {
 
         return res;
       });
+
+      return this.app.mysql.query(
+        sql,
+        params
+      );
+    }
+
+    return generateErrorPromise();
+  }
+
+
+  /**
+   * 根据url，category获取错误列表
+   *
+   * @param {*} { url, startDate, endDate, category, start, limit } 查询参数
+   * @return {Promise} 数据库操作后的Promise
+   * @memberof ErrorService
+   */
+  async getItemList({ url, startDate, endDate, category, start, limit }) {
+    if (url && [ 'ajax', 'js', 'resource' ].find(val => val === category)) {
+      let sql = '';
+      const params = [ decodeURIComponent(url), category ];
+      switch (category) {
+        case 'js':
+          sql = 'SELECT id,msg,category,createTime,pageUrl,resourceUrl,line,col,method ';
+          break;
+        case 'ajax':
+          sql = 'SELECT id,msg,category,createTime,pageUrl,resourceUrl,text,status,querydata,method ';
+          break;
+        case 'resource':
+          sql = 'id,msg,category,createTime,pageUrl,resourceUrl,target,type,querydata,method ';
+          break;
+        default:break;
+      }
+
+      sql += ' FROM web_error WHERE resourceUrl = ? AND category = ? ';
+
+
+      if (startDate) {
+        sql += ' AND createTime >= ? ';
+        params.push(startDate);
+      }
+
+      if (endDate) {
+        sql += ' AND createTime <= ? ';
+        params.push(endDate);
+      }
+
+      if (start !== undefined && limit !== undefined) {
+        sql += ' LIMIT ?,? ';
+        params.push(Number(start), Number(limit));
+      }
+
+      return this.app.mysql.query(
+        sql,
+        params
+      );
+
+    }
+
+    return generateErrorPromise();
+  }
+
+
+  /**
+   * 根据url，category获取错误列表数量
+   *
+   * @param {*} { url, startDate, endDate, category } 查询参数
+   * @return {Promise} 数据库操作后的Promise
+   * @memberof ErrorService
+   */
+  async getItemListCount({ url, startDate, endDate, category }) {
+    if (url && category) {
+      let sql = `SELECT COUNT(1) as count 
+      FROM web_error 
+      WHERE resourceUrl = ? 
+      AND category = ? `;
+      const params = [ decodeURIComponent(url), category ];
+
+      if (startDate) {
+        sql += ' AND createTime >= ? ';
+        params.push(startDate);
+      }
+
+      if (endDate) {
+        sql += ' AND createTime <= ? ';
+        params.push(endDate);
+      }
 
       return this.app.mysql.query(
         sql,
