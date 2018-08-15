@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-14 14:11:56
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-15 10:36:01
+ * @Last Modified time: 2018-08-15 14:00:42
  */
 'use strict';
 
@@ -112,6 +112,31 @@ class ErrorController extends Controller {
       response.sendSuccess(
         ctx,
         res[0] ? res[0].count : 0
+      );
+    } else {
+      response.sendFail(ctx);
+    }
+  }
+
+
+  /**
+   * 获取错误详情信息
+   *
+   * @memberof ErrorController
+   */
+  async getErrorDetail() {
+    const { ctx } = this;
+    const res = await ctx.service.error
+      .getErrorDetail(ctx.query)
+      .catch(e => {
+        this.logger.error(e);
+        response.sendFail(ctx);
+      });
+
+    if (res) {
+      response.sendSuccess(
+        ctx,
+        res
       );
     } else {
       response.sendFail(ctx);

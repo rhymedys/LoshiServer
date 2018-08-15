@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-24 11:16:52
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-15 10:37:15
+ * @Last Modified time: 2018-08-15 12:01:41
  */
 
 'use strict';
@@ -58,4 +58,5 @@ module.exports = app => {
   router.get('/loshi/api/error/getListCount', checkIsLogin, controller.error.getListCount);
   router.get('/loshi/api/error/getItemList', checkIsLogin, controller.error.getItemList);
   router.get('/loshi/api/error/getItemListCount', checkIsLogin, controller.error.getItemListCount);
+  router.get('/loshi/api/error/getErrorDetail', checkIsLogin, controller.error.getErrorDetail);
 };

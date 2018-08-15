@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-26 10:27:52
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-10 13:49:00
+ * @Last Modified time: 2018-08-15 12:00:30
  */
 
 'use strict';
@@ -41,7 +41,7 @@ function send(ctx, data, resultCode, resultDesc) {
     ctx.body = Object.assign({
       resultCode,
       resultDesc: resultDesc ? resultDesc : '',
-    }, data !== undefined ? { data } : null);
+    }, data !== undefined && data !== null ? { data } : null);
   }
 }
 

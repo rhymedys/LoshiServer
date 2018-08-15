@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-14 14:13:20
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-15 10:58:26
+ * @Last Modified time: 2018-08-15 14:00:36
  */
 
 'use strict';
@@ -209,6 +209,23 @@ class ErrorService extends Service {
       );
     }
 
+    return generateErrorPromise();
+  }
+
+
+  /**
+   * 获取错误详情信息
+   *
+   * @param {*} { id } id
+   * @return {Promise} 数据库操作后的Promise
+   * @memberof ErrorService
+   */
+  async getErrorDetail({ id }) {
+    if (id) {
+      return this.dispatch('get', {
+        id: Number(id),
+      });
+    }
     return generateErrorPromise();
   }
 
