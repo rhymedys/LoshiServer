@@ -17,11 +17,6 @@ exports.sessionRedis = {
   package: 'egg-session-redis',
 };
 
-// exports.nunjucks = {
-//   enable: true,
-//   package: 'egg-view-nunjucks',
-// };
-
 exports.view = {
   enable: true,
   package: 'egg-view',

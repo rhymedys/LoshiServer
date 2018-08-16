@@ -2,13 +2,17 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 17:00:04
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-13 16:17:19
+ * @Last Modified time: 2018-08-16 19:48:02
  */
 'use strict';
 const Controller = require('egg').Controller;
 const response = require('../extend/response');
 const utils = require('../extend/utils');
+const getDefaultDuration = require('../extend/getDefaultDuration');
+
+
 class PagesController extends Controller {
+
 
   /**
    * 根据AppId查询受访地址信息
@@ -18,7 +22,7 @@ class PagesController extends Controller {
   async queryAllPagesUrlByAppId() {
     const { ctx } = this;
     const res = await this.ctx.service.pages
-      .queryAllPagesUrlByAppId(ctx.query)
+      .queryAllPagesUrlByAppId(Object.assign(getDefaultDuration(), ctx.query))
       .catch(e => {
         this.logger.error(e);
         response.sendFail(ctx);
@@ -44,7 +48,7 @@ class PagesController extends Controller {
   async queryAllPagesUrlCountByAppId() {
     const { ctx } = this;
     const res = await this.ctx.service.pages
-      .queryAllPagesUrlCountByAppId(ctx.query)
+      .queryAllPagesUrlCountByAppId(Object.assign(getDefaultDuration(), ctx.query))
       .catch(e => {
         this.logger.error(e);
         response.sendFail(ctx);
@@ -120,7 +124,7 @@ class PagesController extends Controller {
    */
   async queryPagesSimpleInfoByUrlAndTime() {
     const { ctx } = this;
-    const { url, startDate, endDate } = ctx.query;
+    const { url, startDate, endDate } = Object.assign(getDefaultDuration(), ctx.query);
     const res = await this.ctx.service.pages
       .queryPagesSimpleInfoByUrlAndTime({ url, startCreateTime: startDate, endCreateTime: endDate })
       .catch(e => {
