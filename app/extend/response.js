@@ -2,11 +2,23 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-26 10:27:52
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-15 12:00:30
+ * @Last Modified time: 2018-08-16 14:09:00
  */
 
 'use strict';
 
+
+/**
+ * 成功没有返回内容
+ *
+ * @param {*} ctx app对象
+ */
+function sendSuccessWithoutContent(ctx) {
+  if (ctx !== undefined) {
+    ctx.status = 200;
+    ctx.body = null;
+  }
+}
 
 /**
  *
@@ -49,5 +61,6 @@ module.exports = {
   sendSuccess,
   sendFail,
   send,
+  sendSuccessWithoutContent,
 };
 

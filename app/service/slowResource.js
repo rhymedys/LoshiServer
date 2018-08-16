@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-09 19:31:21
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-10 11:15:24
+ * @Last Modified time: 2018-08-16 17:39:59
  */
 
 'use strict';
@@ -11,7 +11,7 @@ const Service = require('egg').Service;
 const generateErrorPromise = require('../extend/utils').generateErrorPromise;
 
 const queryCol = [
-  'systemId',
+  'appId',
   'name',
   'method',
   'duration',

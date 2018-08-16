@@ -2,24 +2,25 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-24 11:16:52
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-15 12:01:41
+ * @Last Modified time: 2018-08-16 16:52:59
  */
 
 'use strict';
-
 
 /**
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
   const { router, controller, middleware } = app;
-  const checkSession = middleware.checkSession(null, app);
+  // const checkSession = middleware.checkSession(null, app);
   const checkIsLogin = middleware.checkToken();
+  const checkCanReport = middleware.checkCanReport();
   router.get('/', controller.home.index);
 
   // ----------------------------login--------------------------------------
   router.get('/loshi/login', controller.checkWXMiniProgramLogin.login);
   router.post('/loshi/api/login', controller.login.login);
+  router.get('/loshi/api/login', controller.login.login);
 
   // ----------------------------user--------------------------------------
   router.get('/loshi/api/user/query', checkIsLogin, controller.user.query);
@@ -59,4 +60,10 @@ module.exports = app => {
   router.get('/loshi/api/error/getItemList', checkIsLogin, controller.error.getItemList);
   router.get('/loshi/api/error/getItemListCount', checkIsLogin, controller.error.getItemListCount);
   router.get('/loshi/api/error/getErrorDetail', checkIsLogin, controller.error.getErrorDetail);
+
+
+  router.post('/loshi/api/report', checkCanReport, controller.report.reciveReport);
+
+  // 管理后台
+  router.get('/admin/*', controller.render.renderAdmin);
 };

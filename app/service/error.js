@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-14 14:13:20
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-15 14:00:36
+ * @Last Modified time: 2018-08-16 17:33:39
  */
 
 'use strict';
@@ -37,7 +37,7 @@ class ErrorService extends Service {
     if (appId) {
       let sql = `SELECT resourceUrl, category, count( resourceUrl ) AS count 
         FROM web_error 
-        WHERE systemId = ? 
+        WHERE appId = ? 
         <--otherConidition-->
         GROUP BY resourceUrl, category `;
       const params = [ appId ];
@@ -89,7 +89,7 @@ class ErrorService extends Service {
       FROM (
         SELECT resourceUrl, category, count( resourceUrl ) AS count 
         FROM web_error 
-        WHERE systemId = ? 
+        WHERE appId = ? 
         <--otherConidition-->
         GROUP BY resourceUrl,category
       )p`;

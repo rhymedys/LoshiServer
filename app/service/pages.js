@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 15:54:02
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-14 09:42:38
+ * @Last Modified time: 2018-08-16 17:33:27
  */
 
 'use strict';
@@ -50,7 +50,7 @@ class PagesService extends Service {
       AVG(requestTime) AS requestTime,
       AVG(analysisDomTime) AS analysisDomTime,
       AVG(readyTime) AS readyTime,
-      COUNT(url) AS count FROM web_pages WHERE systemId = ? GROUP BY url ORDER BY count DESC`;
+      COUNT(url) AS count FROM web_pages WHERE appId = ? GROUP BY url ORDER BY count DESC`;
       const params = [ appId ];
 
       if (start !== undefined && limit !== undefined) {
@@ -80,7 +80,7 @@ class PagesService extends Service {
       FROM(
         SELECT COUNT(1) AS count
         FROM web_pages
-        WHERE systemId = ?
+        WHERE appId = ?
         GROUP BY url
       )
       p`;

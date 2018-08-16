@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:40:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-09 17:45:46
+ * @Last Modified time: 2018-08-16 16:56:29
  */
 
 'use strict';
@@ -33,7 +33,6 @@ class SystemController extends Controller {
       systemDomain,
       systemName,
       script = '',
-      isUse,
       slowPageTime,
       slowJsTime,
       slowCssTime,
@@ -50,19 +49,19 @@ class SystemController extends Controller {
       systemDomain,
       systemName,
       script,
-      isUse,
-      slowPageTime,
-      slowJsTime,
-      slowCssTime,
-      slowImgTime,
-      slowAajxTime,
+      isUse: isStatisiPages || isStatisiAjax || isStatisiResource || isStatisiSystem || isStatisiError ? 0 : 1,
+      slowPageTime: slowPageTime || 8,
+      slowJsTime: slowJsTime || 2,
+      slowCssTime: slowCssTime || 1,
+      slowImgTime: slowImgTime || 2,
+      slowAajxTime: slowAajxTime || 2,
       userId,
-      isStatisiPages,
-      isStatisiAjax,
-      isStatisiResource,
-      isStatisiSystem,
-      isStatisiError,
-      createTime: moment().format('YYYY-MM-DD hh:mm:ss'),
+      isStatisiPages: isStatisiPages ? 0 : 1,
+      isStatisiAjax: isStatisiAjax ? 0 : 1,
+      isStatisiResource: isStatisiResource ? 0 : 1,
+      isStatisiSystem: isStatisiSystem ? 0 : 1,
+      isStatisiError: isStatisiError ? 0 : 1,
+      createTime: moment().format('YYYY-MM-DD HH:mm:ss'),
       appId: uuidv1().replace(/\-/g, ''),
     };
 

@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-07 10:27:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-10 11:15:39
+ * @Last Modified time: 2018-08-16 14:42:00
  */
 
 'use strict';
@@ -20,7 +20,6 @@ class AjaxController extends Controller {
    */
   async queryListGroupByNameByCallUrl() {
     const { ctx } = this;
-
     const res = await ctx.service.ajax
       .queryListGroupByNameByCallUrl(ctx.query)
       .catch(e => {

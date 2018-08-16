@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:12:13
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-09 20:23:50
+ * @Last Modified time: 2018-08-16 17:08:36
  */
 
 'use strict';
@@ -87,6 +87,7 @@ class SystemService extends Service {
    * @memberof SystemService
    */
   async insert(systemObj) {
+    console.log(systemObj);
     if (this.checkObjIsPermit(systemObj)) {
       return this.dispatch('insert', systemObj);
     }

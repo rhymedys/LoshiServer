@@ -1,4 +1,5 @@
 'use strict';
+const path = require('path');
 
 module.exports = appInfo => {
   const config = exports = {};
@@ -26,6 +27,7 @@ module.exports = appInfo => {
     },
   };
 
+
   config.mysql = {
     // 单数据库信息配置
     client: {
@@ -50,6 +52,23 @@ module.exports = appInfo => {
   config.security = {
     csrf: {
       useSession: false, // 默认为 false，当设置为 true 时，将会把 csrf token 保存到 Session 中
+    },
+    // xframe: {
+    //   enable: false,
+    // },
+  };
+
+  // config/config.prod.js
+  config.assets = {
+    publicPath: '/public/',
+  };
+
+  config.view = {
+    root: [
+      path.join(appInfo.baseDir, 'app/view'),
+    ].join(','),
+    mapping: {
+      '.ejs': 'ejs',
     },
   };
 
