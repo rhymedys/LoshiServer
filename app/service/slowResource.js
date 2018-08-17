@@ -2,26 +2,13 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-09 19:31:21
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-16 17:39:59
+ * @Last Modified time: 2018-08-17 11:36:30
  */
 
 'use strict';
 
 const Service = require('egg').Service;
 const generateErrorPromise = require('../extend/utils').generateErrorPromise;
-
-const queryCol = [
-  'appId',
-  'name',
-  'method',
-  'duration',
-  'decodedBodySize',
-  'createTime',
-  'callUrl',
-  'markUser',
-  'markPage',
-  'querydata',
-];
 
 class SlowResourceService extends Service {
   /**
@@ -47,7 +34,7 @@ class SlowResourceService extends Service {
    * @return  {Promise} 数据库操作后的Promise
    * @memberof ResourceService
    */
-  async queryListByCallUrl({ callUrl, start, limit }) {
+  async queryListByCallUrl({ callUrl, start, limit, startDate, endDate }) {
     if (callUrl) {
       let sql = `SELECT name,
       duration,
@@ -58,6 +45,16 @@ class SlowResourceService extends Service {
       WHERE callUrl = ? `;
 
       const options = [ decodeURIComponent(callUrl) ];
+
+      if (startDate) {
+        sql += ' And createTime >= ? ';
+        options.push(startDate);
+      }
+
+      if (endDate) {
+        sql += ' And createTime <= ? ';
+        options.push(endDate);
+      }
 
       if (start !== undefined && limit !== undefined) {
         sql += 'LIMIT ?,?';
@@ -81,13 +78,23 @@ class SlowResourceService extends Service {
    * @return {Promise} 数据库操作后的Promise
    * @memberof SlowResourceService
    */
-  async queryListCountByCallUrl({ callUrl }) {
+  async queryListCountByCallUrl({ callUrl, startDate, endDate }) {
     if (callUrl) {
-      const sql = `SELECT COUNT(1) as count
+      let sql = `SELECT COUNT(1) as count
       FROM web_slowresources
       WHERE callUrl = ? `;
 
       const options = [ decodeURIComponent(callUrl) ];
+
+      if (startDate) {
+        sql += ' And createTime >= ? ';
+        options.push(startDate);
+      }
+
+      if (endDate) {
+        sql += ' And createTime <= ? ';
+        options.push(endDate);
+      }
 
       return this.app.mysql.query(
         sql,

@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-09 17:57:40
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-10 12:27:43
+ * @Last Modified time: 2018-08-17 11:28:57
  */
 'use strict';
 
@@ -32,7 +32,7 @@ class AjaxService extends Service {
    * @return {Promise} 数据库操作后的Promise
    * @memberof AjaxService
    */
-  async queryListGroupByNameByCallUrl({ callUrl, start, limit }) {
+  async queryListGroupByNameByCallUrl({ callUrl, start, limit, startDate, endDate }) {
     if (callUrl) {
       let sql = `SELECT name,
       callUrl,
@@ -40,14 +40,28 @@ class AjaxService extends Service {
       AVG(decodedBodySize) AS decodedBodySize 
       FROM web_ajax 
       WHERE callUrl =?  
-      GROUP BY name `;
+      `;
 
       const options = [ decodeURIComponent(callUrl) ];
+
+      if (startDate) {
+        sql += ' And createTime >= ? ';
+        options.push(startDate);
+      }
+
+      if (endDate) {
+        sql += ' And createTime <= ? ';
+        options.push(endDate);
+      }
+
+
+      sql += ' GROUP BY name ';
 
       if (start !== undefined && limit !== undefined) {
         sql += 'LIMIT ?,?';
         options.push(Number(start), Number(limit));
       }
+
 
       return this.app.mysql.query(
         sql,
@@ -66,18 +80,35 @@ class AjaxService extends Service {
    * @return  {Promise} 数据库操作后的Promise
    * @memberof AjaxService
    */
-  async queryListCountGroupByNameByCallUrl({ callUrl }) {
+  async queryListCountGroupByNameByCallUrl({ callUrl, startDate, endDate }) {
     if (callUrl) {
-      const sql = `SELECT COUNT(1) AS count 
+      let sql = `SELECT COUNT(1) AS count 
       FROM ( 
           SELECT COUNT(1) AS count 
           FROM web_ajax 
           WHERE callUrl = ?
+          <--otherConidition-->
           GROUP BY name 
       ) 
       p`;
 
       const options = [ decodeURIComponent(callUrl) ];
+
+      sql = sql.replace('<--otherConidition-->', function() {
+        let res = '';
+        if (startDate !== undefined) {
+          options.push(startDate);
+          res += ' AND createTime >= ? ';
+
+        }
+
+        if (endDate !== undefined) {
+          res += ' AND createTime <=  ? ';
+          options.push(endDate);
+        }
+
+        return res;
+      });
 
       return this.app.mysql.query(
         sql,

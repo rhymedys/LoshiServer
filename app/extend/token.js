@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 13:40:41
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-07-30 14:03:49
+ * @Last Modified time: 2018-08-17 10:50:22
  */
 
 'use strict';
@@ -67,10 +67,14 @@ async function getDBTokenInfoByCookiesToken(ctx) {
   return ctx && getTokenFromCookies(ctx) && ctx.service.token.findByToken(getTokenFromCookies(ctx));
 }
 
+async function deleteTokenByCookieToken(ctx) {
+  return ctx && getTokenFromCookies(ctx) && ctx.service.token.deleteByToken(getTokenFromCookies(ctx));
+}
 module.exports = {
   getTokenFromCookies,
   setTokenToCookies,
   setTokenToDBByUserName,
   getDBTokenInfoByToken,
   getDBTokenInfoByCookiesToken,
+  deleteTokenByCookieToken,
 };

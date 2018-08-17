@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 09:46:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-07-30 11:16:21
+ * @Last Modified time: 2018-08-17 11:08:27
  */
 
 'use strict';
@@ -79,7 +79,25 @@ class TokenService extends Service {
         });
     }
     return generateErrorPromise('token 为空');
+  }
 
+
+  /**
+   * 通过token删除Token信息
+   *
+   * @param {*} token token值
+   * @return {Promise} 删除后Promise对象
+   * @memberof TokenService
+   */
+  async deleteByToken(token) {
+    if (token) {
+      return this.getTokenModel()
+        .deleteOne({
+          token,
+        });
+    }
+
+    return generateErrorPromise('token 为空');
   }
 
 

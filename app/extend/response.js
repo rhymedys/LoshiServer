@@ -2,11 +2,12 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-26 10:27:52
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-16 14:09:00
+ * @Last Modified time: 2018-08-17 09:28:37
  */
 
 'use strict';
 
+const loginFail = 400001;
 
 /**
  * 成功没有返回内容
@@ -34,9 +35,10 @@ function sendSuccess(ctx, data, resultDesc) {
    *
    * @param {*} ctx app对象
    * @param {*} resultDesc 描述
+   * @param {*} resultCode 状态码
    */
-function sendFail(ctx, resultDesc) {
-  send(ctx, null, -1, resultDesc || 'error');
+function sendFail(ctx, resultDesc, resultCode = -1) {
+  send(ctx, null, resultCode, resultDesc || 'error');
 }
 
 /**
@@ -58,6 +60,7 @@ function send(ctx, data, resultCode, resultDesc) {
 }
 
 module.exports = {
+  loginFail,
   sendSuccess,
   sendFail,
   send,

@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-27 10:35:34
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-16 16:52:01
+ * @Last Modified time: 2018-08-17 11:08:03
  */
 
 'use strict';
@@ -52,6 +52,21 @@ class LoginController extends Controller {
         }
       }
     }
+  }
+
+
+  /**
+   * 退出登录
+   *
+   * @memberof LoginController
+   */
+  async logout() {
+    const { ctx } = this;
+    await tokenUtils.deleteTokenByCookieToken(ctx).catch(e => {
+      this.logger.error(e);
+      response.sendSuccess(ctx);
+    });
+    response.sendSuccess(ctx);
   }
 }
 

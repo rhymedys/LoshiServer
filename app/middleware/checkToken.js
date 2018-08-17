@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 13:38:57
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-16 14:41:33
+ * @Last Modified time: 2018-08-17 09:29:00
  */
 'use strict';
 
@@ -15,7 +15,7 @@ module.exports = () => {
       ctx.state.tokenInfo = tokenInfo;
       await next();
     } else {
-      response.sendFail(ctx, '登录状态失效');
+      response.sendFail(ctx, '登录状态失效', response.loginFail);
     }
   };
 };

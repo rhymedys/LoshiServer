@@ -2,13 +2,14 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-07 10:27:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-16 14:42:00
+ * @Last Modified time: 2018-08-17 11:24:24
  */
 
 'use strict';
 const Controller = require('egg').Controller;
 const response = require('../extend/response');
 const utils = require('../extend/utils');
+const getDefaultDuration = require('../extend/getDefaultDuration');
 
 class AjaxController extends Controller {
 
@@ -21,7 +22,7 @@ class AjaxController extends Controller {
   async queryListGroupByNameByCallUrl() {
     const { ctx } = this;
     const res = await ctx.service.ajax
-      .queryListGroupByNameByCallUrl(ctx.query)
+      .queryListGroupByNameByCallUrl(Object.assign(getDefaultDuration(), ctx.query))
       .catch(e => {
         this.logger.error(e);
         response.sendFail(ctx);
@@ -53,7 +54,7 @@ class AjaxController extends Controller {
     const { ctx } = this;
 
     const res = await ctx.service.ajax
-      .queryListCountGroupByNameByCallUrl(ctx.query)
+      .queryListCountGroupByNameByCallUrl(Object.assign(getDefaultDuration(), ctx.query))
       .catch(e => {
         this.logger.error(e);
         response.sendFail(ctx);

@@ -2,13 +2,14 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-07 10:27:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-13 13:49:18
+ * @Last Modified time: 2018-08-17 11:33:34
  */
 
 'use strict';
 const Controller = require('egg').Controller;
 const response = require('../extend/response');
 const utils = require('../extend/utils');
+const getDefaultDuration = require('../extend/getDefaultDuration');
 
 class SlowResourceController extends Controller {
 
@@ -20,7 +21,7 @@ class SlowResourceController extends Controller {
   async queryListByCallUrl() {
     const { ctx } = this;
     const res = await ctx.service.slowResource
-      .queryListByCallUrl(ctx.query)
+      .queryListByCallUrl(Object.assign(getDefaultDuration(), ctx.query))
       .catch(e => {
         this.logger.error(e);
         response.sendFail(ctx);
@@ -50,7 +51,7 @@ class SlowResourceController extends Controller {
   async queryListCountByCallUrl() {
     const { ctx } = this;
     const res = await ctx.service.slowResource
-      .queryListCountByCallUrl(ctx.query)
+      .queryListCountByCallUrl(Object.assign(getDefaultDuration(), ctx.query))
       .catch(e => {
         this.logger.error(e);
         response.sendFail(ctx);

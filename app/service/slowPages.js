@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-09 19:31:21
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-10 11:39:07
+ * @Last Modified time: 2018-08-17 11:31:46
  */
 
 'use strict';
@@ -34,7 +34,7 @@ class SlowPagesService extends Service {
    * @return  {Promise} 数据库操作后的Promise
    * @memberof ResourceService
    */
-  async querListByUrl({ url, start, limit }) {
+  async querListByUrl({ url, start, limit, startDate, endDate }) {
     if (url) {
       let sql = `SELECT id,
       url,
@@ -47,7 +47,19 @@ class SlowPagesService extends Service {
       createTime
       FROM web_slowpages
       WHERE url = ? `;
+
       const options = [ decodeURIComponent(url) ];
+
+
+      if (startDate) {
+        sql += ' And createTime >= ? ';
+        options.push(startDate);
+      }
+
+      if (endDate) {
+        sql += ' And createTime <= ? ';
+        options.push(endDate);
+      }
 
       if (start !== undefined && limit !== undefined) {
         sql += 'LIMIT ?,?';
@@ -70,14 +82,25 @@ class SlowPagesService extends Service {
    * @return  {Promise} 数据库操作后的Promise
    * @memberof ResourceService
    */
-  async querListCountByUrl({ url }) {
+  async querListCountByUrl({ url, startDate, endDate }) {
     if (url) {
-      const sql = `SELECT COUNT(1) AS count 
+      let sql = `SELECT COUNT(1) AS count 
         FROM web_slowpages 
         WHERE url = ? 
         GROUP BY url
       `;
       const options = [ decodeURIComponent(url) ];
+
+      if (startDate) {
+        sql += ' And createTime >= ? ';
+        options.push(startDate);
+      }
+
+      if (endDate) {
+        sql += ' And createTime <= ? ';
+        options.push(endDate);
+      }
+
 
       return this.app.mysql.query(
         sql,

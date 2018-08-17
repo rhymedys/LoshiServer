@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-24 11:16:52
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-16 16:52:59
+ * @Last Modified time: 2018-08-17 11:06:00
  */
 
 'use strict';
@@ -20,7 +20,7 @@ module.exports = app => {
   // ----------------------------login--------------------------------------
   router.get('/loshi/login', controller.checkWXMiniProgramLogin.login);
   router.post('/loshi/api/login', controller.login.login);
-  router.get('/loshi/api/login', controller.login.login);
+  router.get('/loshi/api/logout', controller.login.logout);
 
   // ----------------------------user--------------------------------------
   router.get('/loshi/api/user/query', checkIsLogin, controller.user.query);

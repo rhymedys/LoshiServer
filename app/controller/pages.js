@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 17:00:04
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-16 19:48:02
+ * @Last Modified time: 2018-08-16 20:22:49
  */
 'use strict';
 const Controller = require('egg').Controller;
@@ -12,7 +12,6 @@ const getDefaultDuration = require('../extend/getDefaultDuration');
 
 
 class PagesController extends Controller {
-
 
   /**
    * 根据AppId查询受访地址信息
@@ -137,7 +136,6 @@ class PagesController extends Controller {
     } else {
       response.sendFail(ctx);
     }
-
   }
 }
 

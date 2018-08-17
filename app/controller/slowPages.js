@@ -2,13 +2,14 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-09 19:59:16
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-13 10:12:38
+ * @Last Modified time: 2018-08-17 11:32:35
  */
 
 'use strict';
 const Controller = require('egg').Controller;
 const response = require('../extend/response');
 const utils = require('../extend/utils');
+const getDefaultDuration = require('../extend/getDefaultDuration');
 
 class SlowPagesController extends Controller {
 
@@ -20,7 +21,7 @@ class SlowPagesController extends Controller {
   async querListByUrl() {
     const { ctx } = this;
     const res = await ctx.service.slowPages
-      .querListByUrl(ctx.query)
+      .querListByUrl(Object.assign(getDefaultDuration(), ctx.query))
       .catch(e => {
         this.logger.error(e);
         response.sendFail(ctx);
@@ -50,7 +51,7 @@ class SlowPagesController extends Controller {
   async querListCountByUrl() {
     const { ctx } = this;
     const res = await ctx.service.slowPages
-      .querListCountByUrl(ctx.query)
+      .querListCountByUrl(Object.assign(getDefaultDuration(), ctx.query))
       .catch(e => {
         this.logger.error(e);
         response.sendFail(ctx);
