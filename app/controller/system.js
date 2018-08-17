@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:40:00
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-16 16:56:29
+ * @Last Modified time: 2018-08-17 14:36:55
  */
 
 'use strict';
@@ -114,10 +114,8 @@ class SystemController extends Controller {
   async update() {
     const { ctx } = this;
     const {
-      systemDomain,
       systemName,
       script = '',
-      isUse,
       slowPageTime,
       slowJsTime,
       slowCssTime,
@@ -138,22 +136,21 @@ class SystemController extends Controller {
           this.logger.error(e);
           response.sendFail(ctx);
         });
-      if (res) {
-        const payload = Object.assign({}, res, {
-          systemDomain,
+      if (res && res[0]) {
+        const payload = Object.assign({}, res[0], {
           systemName,
           script,
-          isUse,
-          slowPageTime,
-          slowJsTime,
-          slowCssTime,
-          slowImgTime,
-          slowAajxTime,
-          isStatisiPages,
-          isStatisiAjax,
-          isStatisiResource,
-          isStatisiSystem,
-          isStatisiError,
+          isUse: isStatisiPages || isStatisiAjax || isStatisiResource || isStatisiSystem || isStatisiError ? 0 : 1,
+          slowPageTime: slowPageTime || 8,
+          slowJsTime: slowJsTime || 2,
+          slowCssTime: slowCssTime || 1,
+          slowImgTime: slowImgTime || 2,
+          slowAajxTime: slowAajxTime || 2,
+          isStatisiPages: isStatisiPages ? 0 : 1,
+          isStatisiAjax: isStatisiAjax ? 0 : 1,
+          isStatisiResource: isStatisiResource ? 0 : 1,
+          isStatisiSystem: isStatisiSystem ? 0 : 1,
+          isStatisiError: isStatisiError ? 0 : 1,
         });
 
         const updateByAppIdRes = await ctx.service.system
@@ -165,7 +162,6 @@ class SystemController extends Controller {
 
         if (updateByAppIdRes) {
           response.sendSuccess(ctx);
-
         } else {
           response.sendFail(ctx);
         }

@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-14 14:13:20
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-16 17:33:39
+ * @Last Modified time: 2018-08-17 16:37:01
  */
 
 'use strict';
@@ -144,7 +144,7 @@ class ErrorService extends Service {
           sql = 'SELECT id,msg,category,createTime,pageUrl,resourceUrl,text,status,querydata,method ';
           break;
         case 'resource':
-          sql = 'id,msg,category,createTime,pageUrl,resourceUrl,target,type,querydata,method ';
+          sql = 'SELECT id,msg,category,createTime,pageUrl,resourceUrl,target,type,querydata,method ';
           break;
         default:break;
       }

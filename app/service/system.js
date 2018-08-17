@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:12:13
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-16 17:08:36
+ * @Last Modified time: 2018-08-17 14:36:00
  */
 
 'use strict';
@@ -54,12 +54,13 @@ class SystemService extends Service {
    *
    * @param {*} action 数据库操作Api
    * @param {*} options 配置
+   * @param {*} otherOptions otherOptions
    * @return {Promise} 数据库操作后的Promise
    * @memberof UserService
    */
-  dispatch(action, options) {
+  dispatch(action, options, ...otherOptions) {
     if (action && options) {
-      return this.app.mysql[action]('web_system', options);
+      return this.app.mysql[action]('web_system', options, ...otherOptions);
     }
     return generateErrorPromise('action options为null');
   }
@@ -87,7 +88,6 @@ class SystemService extends Service {
    * @memberof SystemService
    */
   async insert(systemObj) {
-    console.log(systemObj);
     if (this.checkObjIsPermit(systemObj)) {
       return this.dispatch('insert', systemObj);
     }
@@ -121,7 +121,9 @@ class SystemService extends Service {
    */
   async updateByAppId(systemObj) {
     if (this.checkObjIsPermit(systemObj)) {
-      return this.dispatch('update', systemObj);
+      return this.dispatch('update', systemObj, { where: {
+        appId: systemObj.appId,
+      } });
     }
     return generateErrorPromise();
   }
