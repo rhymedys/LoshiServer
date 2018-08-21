@@ -9,7 +9,7 @@ const utils = require('../extend/utils');
 class ReportController extends Controller {
   async reciveReport() {
     const { ctx } = this;
-    console.log('ReportController state', ctx.state);
+    // console.log('ReportController state', ctx.state);
     const { addData, appVersion, errorList, page, performance, preUrl, resourceList, time } = ctx.request.body;
     const { systemInfo } = ctx.state;
     // 统计错误
@@ -32,8 +32,8 @@ class ReportController extends Controller {
           msg: errObj.msg || '',
           category: errObj.n || '',
           pageUrl: page || '',
-          resourceUrl,
-          querydata: resourceUrlQuery,
+          resourceUrl: resourceUrl || page,
+          querydata: errObj.method.toUpperCase() === 'POST' ? JSON.stringify(errObj.data.payload) : resourceUrlQuery,
           target: errObj.data.target || '',
           type: errObj.data.type || '',
           status: errObj.data.status || '',
@@ -41,8 +41,8 @@ class ReportController extends Controller {
           col: errObj.data.col || '',
           line: errObj.data.line || '',
           method: errObj.method,
-          fullurl: errObj.data.resourceUrl,
-          createTime: moment(new Date(errObj.t)).format('YYYY-MM-DD HH:mm:ss'),
+          fullurl: errObj.data.resourceUrl || page,
+          createTime: utils.formatDate2YYYYMMDDHHMMSS(new Date(errObj.t)),
           appId: addData.appId,
         };
       });

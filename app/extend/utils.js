@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-27 10:29:23
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-16 19:36:26
+ * @Last Modified time: 2018-08-21 16:48:15
  */
 
 'use strict';
@@ -30,7 +30,7 @@ function generateErrorPromise(e = 'error') {
  */
 function formatDate2YYYYMMDDHHMMSS(strDate) {
   try {
-    return moment(strDate).format('YYYY-MM-DD hh:mm:ss');
+    return moment(strDate).format('YYYY-MM-DD HH:mm:ss');
   } catch (e) {
     return strDate;
   }

@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-07-30 14:12:13
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-17 14:36:00
+ * @Last Modified time: 2018-08-21 13:53:16
  */
 
 'use strict';
@@ -104,9 +104,18 @@ class SystemService extends Service {
    */
   async deleteByAppId(appId) {
     if (appId) {
-      return this.dispatch('delete', {
-        appId,
-      });
+      const options = { appId };
+      return this.app.mysql.beginTransactionScope(async conn => {
+        await conn.delete('web_system', options);
+        await conn.delete('web_slowresources', options);
+        await conn.delete('web_slowpages', options);
+        await conn.delete('web_pages', options);
+        await conn.delete('web_error', options);
+        await conn.delete('web_environment', options);
+        await conn.delete('web_ajax', options);
+        await conn.delete('web_sources', options);
+        return { success: true };
+      }, this.ctx);
     }
     return generateErrorPromise();
   }

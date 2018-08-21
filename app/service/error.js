@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-14 14:13:20
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-17 16:37:01
+ * @Last Modified time: 2018-08-21 16:59:34
  */
 
 'use strict';
@@ -39,7 +39,8 @@ class ErrorService extends Service {
         FROM web_error 
         WHERE appId = ? 
         <--otherConidition-->
-        GROUP BY resourceUrl, category `;
+        GROUP BY resourceUrl, category
+        ORDER BY createTime DESC `;
       const params = [ appId ];
 
       sql = sql.replace('<--otherConidition-->', function() {
@@ -63,7 +64,7 @@ class ErrorService extends Service {
       });
 
       if (start !== undefined && limit !== undefined) {
-        sql += 'LIMIT ?,?';
+        sql += ' LIMIT ?,? ';
         params.push(Number(start), Number(limit));
       }
 
@@ -163,7 +164,7 @@ class ErrorService extends Service {
       }
 
       if (start !== undefined && limit !== undefined) {
-        sql += ' LIMIT ?,? ';
+        sql += 'ORDER BY createTime DESC  LIMIT ?,? ';
         params.push(Number(start), Number(limit));
       }
 

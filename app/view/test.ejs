@@ -6,9 +6,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <!-- <script src="../dist/loshi-report.0.0.1.js"></script> -->
 		<script>
-	!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):e.LoshiReport=t()}(this,function(){"use strict";var e="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},t=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},r=function(){function e(e,t){for(var r=0;r<t.length;r++){var o=t[r];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}return function(t,r,o){return r&&e(t.prototype,r),o&&e(t,o),t}}(),o=[],n={},a={reportApi:"http://localhost/api",outtime:1e3,filterUrl:["http://localhost:35729/livereload.js?snipver=1","http://localhost:8000/sockjs-node/info"],isPage:!0,isResource:!0,isError:!0},i={resourceList:[],performance:{},errorList:[],fetchNum:0,loadNum:0,ajaxLength:0,fetLength:0,ajaxMsg:[],goingType:"",haveAjax:!1,haveFetch:!1,preUrl:document.referrer&&document.referrer!==window.location.href?document.referrer:"",appVersion:navigator.appVersion,page:window.location.href},s={t:"",n:"js",msg:"",data:{}},c=(new Date).getTime(),u=0,h=0,l=0,d=null;function f(e){return"[object Function]"===Object.prototype.toString.call(e)}function g(){i.haveAjax&&i.haveFetch&&u&&h&&l?(console.log("loadTime:"+u+",ajaxTime:"+h+",fetchTime:"+l),m()):i.haveAjax&&!i.haveFetch&&u&&h?(console.log("loadTime:"+u+",ajaxTime:"+h),m()):!i.haveAjax&&i.haveFetch&&u&&l?(console.log("loadTime:"+u+",fetchTime:"+l),m()):i.haveAjax||i.haveFetch||!u||(console.log("loadTime:"+u),m())}function m(){setTimeout(function(){o&&o.length&&(i.errorList=i.errorList.concat(o));var e=document.documentElement.clientWidth||document.body.clientWidth,t=document.documentElement.clientHeight||document.body.clientHeight,r={time:(new Date).getTime(),page:i.page,preUrl:i.preUrl,appVersion:i.appVersion,errorList:i.errorList,performance:i.performance,resourceList:i.resourceList,addData:n,screenwidth:e,screenheight:t};f(d)&&d(r),!d&&window.fetch&&window.fetch(a.reportApi,{method:"POST",mode:"cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(r)})},a.outtime)}function p(e){i.loadNum+=1,i.loadNum===i.ajaxLength&&("load"===e?console.log("走了AJAX onload 方法"):"readychange"===e?console.log("走了AJAX onreadystatechange 方法"):console.log("走了 error 方法"),i.ajaxLength=i.loadNum=0,h=(new Date).getTime()-c,g())}function w(e,t){var r=Object.assign({},s);r.t=(new Date).getTime(),r.n="ajax",r.msg=e.statusText||"ajax request error",r.method=e.method,r.data={resourceUrl:e.responseURL,text:e.statusText,status:e.status},i.errorList.push(r)}function y(){window.performance.clearResourceTimings(),i.performance={},i.errorList=[],i.preUrl="",i.resourceList="",i.page=window.location.href,o=[],n=[]}function x(){!function(t){function r(e){return function(){return this.hasOwnProperty(e+"_")?this[e+"_"]:this.xhr[e]}}function o(e){return function(r){var o=this.xhr,n=this;0==e.indexOf("on")?t[e]?o[e]=function(){t[e](n)||r.apply(o,arguments)}:o[e]=r:this[e+"_"]=r}}function n(e){return function(){var r=[].slice.call(arguments);if(!t[e]||!t[e].call(this,r,this.xhr))return this.xhr[e].apply(this.xhr,r)}}window._ahrealxhr=window._ahrealxhr||window.XMLHttpRequest,window.XMLHttpRequest=function(){for(var t in this.xhr=new window._ahrealxhr,this.xhr){var a="";try{a=e(this.xhr[t])}catch(e){}f(a)?this[t]=n(t):Object.defineProperty(this,t,{get:r(t),set:o(t)})}},window._ahrealxhr}({onreadystatechange:function(e){4===e.readyState&&setTimeout(function(){"load"!==i.goingType&&(i.goingType="readychange",p("readychange"),(e.status<200||e.status>300)&&(e.method=e.args.method,w(e)))},600)},onerror:function(e){p("error"),e.args&&(e.method=e.args.method,e.responseURL=e.args.url,e.statusText="ajax request error"),w(e)},onload:function(e){if(4===e.readyState){if("readychange"===i.goingType)return;i.goingType="load",p("load"),(e.status<200||e.status>300)&&(e.method=e.args.method,w(e))}},open:function(e,t){if(a.filterUrl&&a.filterUrl.length){var r=!1;if(a.filterUrl.forEach(function(t){-1!=e[1].indexOf(t)&&(r=!0)}),r)return}var o={url:e[1],method:e[0]||"GET",type:"xmlhttprequest"};this.args=o,(window.performance||window.performance.clearResourceTimings)&&(i.haveAjax&&i.haveFetch&&0===i.ajaxLength&&0===i.fetLength?y():!i.haveAjax&&i.haveFetch&&0===i.fetLength?y():i.haveAjax&&!i.haveFetch&&0===i.ajaxLength&&y()),i.ajaxMsg.push(o),i.ajaxLength=i.ajaxLength+1,i.haveAjax=!0}})}return new(function(){function e(){t(this,e)}return r(e,[{key:"init",value:function(e,t){return a=Object.assign(a,e),d=t,a.isError&&(window.addEventListener("error",function(e){console.log("window error listener",e);var t=Object.assign({},s);t.n="resource",t.t=(new Date).getTime(),t.msg=e.target.localName+" is load error",t.method="GET",t.data={target:e.target.localName,type:e.type,resourceUrl:e.target.currentSrc},e.target!==window&&i.errorList.push(t)},!0),window.onerror=function(e,t,r,o,n){console.log("window onerror",e,t,r,o,n);var a=Object.assign({},s);setTimeout(function(){o=o||window.event&&window.event.errorCharacter||0,a.msg=n&&n.stack?n.stack.toString():e,a.method="GET",a.t=(new Date).getTime(),a.data={resourceUrl:t,line:r,col:o},i.errorList.push(a)},0)}),window.addEventListener("load",function(){u=(new Date).getTime()-c,g()},!1),(a.isResource||a.isError)&&x(),this}},{key:"addError",value:function(e){if(e){var t={method:"GET",msg:e.msg,n:"js",data:{col:e.col,line:e.line,resourceUrl:e.resourceUrl}};o.push(t)}return this}},{key:"addData",value:function(e){if(f(e)&&e)return e(n)}}]),e}())});
+		
+		!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):e.LoshiReport=t()}(this,function(){"use strict";var e="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},t=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},r=function(){function e(e,t){for(var r=0;r<t.length;r++){var o=t[r];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}return function(t,r,o){return r&&e(t.prototype,r),o&&e(t,o),t}}(),o=[],n={},a={reportApi:"http://localhost/api",outtime:1e3,filterUrl:["http://localhost:35729/livereload.js?snipver=1","http://localhost:8000/sockjs-node/info"],isPage:!0,isResource:!0,isError:!0},i={resourceList:[],performance:{},errorList:[],fetchNum:0,loadNum:0,ajaxLength:0,fetLength:0,ajaxMsg:[],goingType:"",haveAjax:!1,haveFetch:!1,preUrl:document.referrer&&document.referrer!==window.location.href?document.referrer:"",appVersion:navigator.appVersion,page:window.location.href},s={t:"",n:"js",msg:"",data:{}},c=(new Date).getTime(),l=0,u=0,h=0,d=null;function f(e){return"[object Function]"===Object.prototype.toString.call(e)}function g(){i.haveAjax&&i.haveFetch&&l&&u&&h?(console.log("loadTime:"+l+",ajaxTime:"+u+",fetchTime:"+h),p()):i.haveAjax&&!i.haveFetch&&l&&u?(console.log("loadTime:"+l+",ajaxTime:"+u),p()):!i.haveAjax&&i.haveFetch&&l&&h?(console.log("loadTime:"+l+",fetchTime:"+h),p()):i.haveAjax||i.haveFetch||!l||(console.log("loadTime:"+l),p())}function p(){setTimeout(function(){o&&o.length&&(i.errorList=i.errorList.concat(o));var e=document.documentElement.clientWidth||document.body.clientWidth,t=document.documentElement.clientHeight||document.body.clientHeight,r={time:(new Date).getTime(),page:i.page,preUrl:i.preUrl,appVersion:i.appVersion,errorList:i.errorList,performance:i.performance,resourceList:i.resourceList,addData:n,screenwidth:e,screenheight:t};f(d)&&d(r),!d&&window.fetch&&window.fetch(a.reportApi,{method:"POST",mode:"cors",headers:{"Content-Type":"application/json"},type:"report-data",body:JSON.stringify(r)})},a.outtime)}function m(e){i.loadNum+=1,i.loadNum===i.ajaxLength&&("load"===e?console.log("走了AJAX onload 方法"):"readychange"===e?console.log("走了AJAX onreadystatechange 方法"):console.log("走了 error 方法"),i.ajaxLength=i.loadNum=0,u=(new Date).getTime()-c,g())}function w(e,t){console.log("ajaxResponse",e);var r=Object.assign({},s);r.t=(new Date).getTime(),r.n="ajax",r.msg=e.statusText||"ajax request error",r.method=e.method,r.data={resourceUrl:e.responseURL,text:e.statusText,status:e.status,payload:e.xhr.body},i.errorList.push(r)}function y(){window.performance.clearResourceTimings(),i.performance={},i.errorList=[],i.preUrl="",i.resourceList="",i.page=window.location.href,o=[],n=[]}function x(){!function(t){function r(e){return function(){return this.hasOwnProperty(e+"_")?this[e+"_"]:this.xhr[e]}}function o(e){return function(r){var o=this.xhr,n=this;0==e.indexOf("on")?t[e]?o[e]=function(){t[e](n)||r.apply(o,arguments)}:o[e]=r:this[e+"_"]=r}}function n(e){return function(){var r=[].slice.call(arguments);if(!t[e]||!t[e].call(this,r,this.xhr))return this.xhr[e].apply(this.xhr,r)}}window._ahrealxhr=window._ahrealxhr||window.XMLHttpRequest,window.XMLHttpRequest=function(){for(var t in this.xhr=new window._ahrealxhr,this.xhr){var a="";try{a=e(this.xhr[t])}catch(e){}"function"===a?this[t]=n(t):Object.defineProperty(this,t,{get:r(t),set:o(t)})}},window._ahrealxhr}({onreadystatechange:function(e){4===e.readyState&&setTimeout(function(){"load"!==i.goingType&&(i.goingType="readychange",m("readychange"),(e.status<200||e.status>300)&&(e.method=e.args.method,w(e)))},600)},onerror:function(e){m("error"),e.args&&(e.method=e.args.method,e.responseURL=e.args.url,e.statusText="ajax request error"),w(e)},onload:function(e){if(4===e.readyState){if("readychange"===i.goingType)return;i.goingType="load",m("load"),(e.status<200||e.status>300)&&(e.method=e.args.method,w(e))}},send:function(e,t){var r={};e&&e.length&&e[0]&&(console.log(e[0].split("&")),e[0].split("&").forEach(function(e){var t=e.split("=");r[t[0]]=t[1]||""})),console.log(e,t),t.body=r},open:function(e,t){if(a.filterUrl&&a.filterUrl.length){var r=!1;if(a.filterUrl.forEach(function(t){-1!==e[1].indexOf(t)&&(r=!0)}),r)return}var o={url:e[1],method:e[0]||"GET",type:"xmlhttprequest"};this.args=o,(window.performance||window.performance.clearResourceTimings)&&(i.haveAjax&&i.haveFetch&&0===i.ajaxLength&&0===i.fetLength?y():!i.haveAjax&&i.haveFetch&&0===i.fetLength?y():i.haveAjax&&!i.haveFetch&&0===i.ajaxLength&&y()),i.ajaxMsg.push(o),i.ajaxLength=i.ajaxLength+1,i.haveAjax=!0}})}return new(function(){function e(){t(this,e)}return r(e,[{key:"init",value:function(e,t){return a=Object.assign(a,e),d=t,a.isError&&(window.addEventListener("error",function(e){console.log("window error listener",e);var t=Object.assign({},s);t.n="resource",t.t=(new Date).getTime(),t.msg=e.target.localName+" is load error",t.method="GET",t.data={target:e.target.localName,type:e.type,resourceUrl:e.target.currentSrc},e.target!==window&&i.errorList.push(t)},!0),window.onerror=function(e,t,r,o,n){console.log("window onerror",e,t,r,o,n);var a=Object.assign({},s);setTimeout(function(){o=o||window.event&&window.event.errorCharacter||0,a.msg=n&&n.stack?n.stack.toString():e,a.method="GET",a.t=(new Date).getTime(),a.data={resourceUrl:t,line:r,col:o},i.errorList.push(a)},0)}),window.addEventListener("load",function(){l=(new Date).getTime()-c,g()},!1),(a.isResource||a.isError)&&x(),this}},{key:"addError",value:function(e){if(e){var t={method:"GET",msg:e.msg,n:"js",data:{col:e.col,line:e.line,resourceUrl:e.resourceUrl}};o.push(t)}return this}},{key:"addData",value:function(e){if(f(e)&&e)return e(n)}}]),e}())});
 
-    </script>
+
+			
+					</script>
 	<script>
         LoshiReport
           .init({
@@ -36,36 +39,48 @@
 		<img src="http://image.uczzd.cn/3238272118782049804.jpg?id=0&from=export&height=140&width=270" id="img1">
 	</div>
 	<script>
-		$(function () {
-		  $.ajax({
+		$(document).ready(function(){
+			$.ajax({
 		    type: 'get',
-		    url: 'http://mock-api.seosiwei.com/guest/home/api/shop/getHomeInitInf',
+		    url: 'http://localhost:7001/com/guest/home/api/shop/getHomeInitInf?getreport=test',
 		    success: data => {
 		      // console.log(data)
 		    }
-		  })
+			})
+			
+			
 
-		  // fetch('http://mock-api.seosiwei.com/guest/order/api/order/getOrde',{
+			$.ajax({
+				url: "test.html",
+				context: document.body
+			}).done(function() {
+				$( this ).addClass( "done" );
+			});
+
+		  // fetch('http://localhost:7001/guest/order/api/order/getOrde',{
 		  // 	method: 'POST',
 		  // }).then(function(response){
 		  // 	console.log('++++')
 		  // })
 
-		  // var req = new Request('http://mock-api.seosiwei.com/guest/home/api/shop/getHomeInitInfo', {method: 'GET', cache: 'reload'});
+		  // var req = new Request('http://localhost:7001/guest/home/api/shop/getHomeInitInfo', {method: 'GET', cache: 'reload'});
 		  // fetch(req).then(function(response){
 		  // 	console.log('-----')
 		  // })
 
 		  $.ajax({
 		    type: 'post',
-		    url: 'http://mock-api.seosiwei.com/guest/order/api/order/getOrder',
+				url: 'http://localhost:7001/guest/order/api/order/getOrder',
+				data:{
+					postreport:'post'
+				},
 		    success: data => {
 		      // console.log(data)
 		    }
-  })
-		})
+				})
+		// console.log(fafsdfsdfasfd)
+			});
 
-console.log(fafsdfsdfasfd)
 	</script>
 </body>
 </html>
