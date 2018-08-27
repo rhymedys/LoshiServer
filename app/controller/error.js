@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-14 14:11:56
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-21 17:14:45
+ * @Last Modified time: 2018-08-27 14:06:05
  */
 'use strict';
 
@@ -137,7 +137,7 @@ class ErrorController extends Controller {
       if (res.createTime) res.createTime = utils.formatDate2YYYYMMDDHHMMSS(res.createTime);
       response.sendSuccess(
         ctx,
-        res
+        Object.assign({}, res, res.createTime ? { createTime: utils.formatDate2YYYYMMDDHHMMSS(res.createTime) } : null)
       );
     } else {
       response.sendFail(ctx);

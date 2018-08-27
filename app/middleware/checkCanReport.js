@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-16 14:42:54
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-17 14:37:13
+ * @Last Modified time: 2018-08-27 13:38:31
  */
 
 'use strict';
@@ -17,7 +17,7 @@ module.exports = () => {
       return;
     }
 
-    const appId = body.addData && body.addData.appId;
+    const appId = body.appId;
     if (!appId) {
       response.sendSuccessWithoutContent(ctx);
       console.log('checkCanReport appId为null');

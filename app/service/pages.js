@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-06 15:54:02
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-16 17:33:27
+ * @Last Modified time: 2018-08-27 16:34:03
  */
 
 'use strict';
@@ -24,6 +24,21 @@ class PagesService extends Service {
       return this.app.mysql[action]('web_pages', options);
     }
     return generateErrorPromise('action options为null');
+  }
+
+  /**
+   * 插入数据
+   *
+   * @param {*} obj 要插入的数据
+   * @return  {Promise} 数据库操作后的Promise
+   * @memberof SlowPagesService
+   */
+  async insert(obj) {
+    if (obj) {
+      return this.dispatch('insert', obj);
+    }
+
+    return generateErrorPromise('PagesService insert 数据为空');
   }
 
 

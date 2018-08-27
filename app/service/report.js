@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-15 15:32:29
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-17 16:22:51
+ * @Last Modified time: 2018-08-27 16:28:20
  */
 
 'use strict';
@@ -30,7 +30,7 @@ class ReportService extends Service {
       }, this.ctx);
     }
 
-    return generateErrorPromise();
+    return generateErrorPromise('ReportService insertError 类型不符');
   }
 }
 

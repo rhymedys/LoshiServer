@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-08-09 19:31:21
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-08-17 11:31:46
+ * @Last Modified time: 2018-08-27 16:32:59
  */
 
 'use strict';
@@ -112,6 +112,20 @@ class SlowPagesService extends Service {
   }
 
 
+  /**
+   * 插入数据
+   *
+   * @param {*} obj 要插入的数据
+   * @return  {Promise} 数据库操作后的Promise
+   * @memberof SlowPagesService
+   */
+  async insert(obj) {
+    if (obj) {
+      return this.dispatch('insert', obj);
+    }
+
+    return generateErrorPromise('SlowPagesService insert 数据为空');
+  }
 }
 
 module.exports = SlowPagesService;
